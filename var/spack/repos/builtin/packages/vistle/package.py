@@ -1,20 +1,23 @@
-# Copyright 2020 Martin Aumüller <aumueller@hlrs.de>
+# Copyright 2020 Martin Aumüller <aumuell@reserv.at>
 
 from spack import *
-import os
+#import os
 
 
 class Vistle(CMakePackage):
-    """Vistle is an open-source tool for visualization of scientific data in VR."""
+    """Vistle is a tool for visualization of scientific data in VR.
+
+    Notable features are distributed workflows and low-latency remote
+    visualization."""
 
     homepage = 'https://www.vistle.io'
     git      = "https://github.com/vistle/vistle.git"
 
-    #maintainers = ['chuckatkins', 'danlipsa']
+    maintainers = ['aumuell']
 
     version('develop', branch='master', submodules=True)
-    #version('2020.02', commit='3efd1e7718d30718a6f7c0cddc3999928dc02a9d', submodules=True)
-    #version('2020.08', commit='aaf99ff79145c10a6ba4754963266244b1481660', submodules=True)
+    # version('2020.02', commit='3efd1e7718d30718a6f7c0cddc3999928dc02a9d', submodules=True)
+    # version('2020.08', commit='aaf99ff79145c10a6ba4754963266244b1481660', submodules=True)
 
     variant('static', default=False, description='Do not build shared libraries')
     variant('single', default=True, description='Use a single process with many threads')
