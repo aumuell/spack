@@ -32,7 +32,9 @@ RUN yum update -y \
         tcl \
         unzip \
         which \
- && pip3 install boto3 \
+        glibc-devel.i686 \
+ && alternatives --set python /usr/bin/python3 \
+ && python -m pip install boto3 \
  && rm -rf /var/cache/yum \
  && yum clean all
 
