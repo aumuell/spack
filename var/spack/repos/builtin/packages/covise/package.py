@@ -51,6 +51,7 @@ class Covise(CMakePackage):
     depends_on('xerces-c')
     depends_on('curl')
     depends_on('qt+opengl')
+    depends_on('glu')
     depends_on('glew')
     depends_on('mpi')
     depends_on('boost+pic')
@@ -91,7 +92,7 @@ class Covise(CMakePackage):
 
 
     def cmake_args(self):
-        """Populate cmake arguments for Vistle."""
+        """Populate cmake arguments for COVISE."""
         spec = self.spec
 
         args = []
