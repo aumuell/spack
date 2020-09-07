@@ -43,7 +43,7 @@ class Vistle(CMakePackage):
 
     depends_on('mpi')
     depends_on('botan')
-    depends_on('boost+pic@:1.73')
+    depends_on('boost+pic')
 
     depends_on('netcdf-cxx4', when='+netcdf')
     depends_on('cmake@3.3:', type='build')
