@@ -68,7 +68,7 @@ class Vistle(CMakePackage):
 
     depends_on('jpeg', when='+rr')
     depends_on('embree', when='+rr')
-    depends_on('ispc', when='+rr')
+    depends_on('ispc', when='+rr', type='build')
 
     depends_on('covise', when='+vr')
 
