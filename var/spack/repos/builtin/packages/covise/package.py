@@ -7,7 +7,7 @@ from spack import *
 
 
 class Covise(CMakePackage):
-    """FIXME: Put a proper description of your package here."""
+    """Collaborative Visualization and Simulation Environment"""
 
     homepage = "https://www.hlrs.de/covise"
     git      = "https://github.com/hlrs-vis/covise.git"
