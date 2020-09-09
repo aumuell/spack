@@ -30,6 +30,8 @@ RUN apt-get -yqq update \
         python3-setuptools \
         tcl \
         unzip \
+        libc6-dev-i386 \
+        g++-multilib \
  && locale-gen en_US.UTF-8 \
  && pip3 install boto3 \
  && rm -rf /var/lib/apt/lists/*
