@@ -11,6 +11,7 @@ ENV DOCKERFILE_BASE=centos            \
 
 RUN yum update -y \
  && yum install -y epel-release \
+ && yum install -y centos-release-scl-rh \
  && yum update -y \
  && yum --enablerepo epel groupinstall -y "Development Tools" \
  && yum --enablerepo epel install -y \
@@ -33,6 +34,7 @@ RUN yum update -y \
         unzip \
         which \
         glibc-devel.i686 \
+        devtoolset-7 \
  && pip install boto3 \
  && rm -rf /var/cache/yum \
  && yum clean all
@@ -65,6 +67,8 @@ RUN [ -f ~/.profile ]                                               \
 
 WORKDIR /root
 SHELL ["docker-shell"]
+
+RUN . /opt/rh/devtoolset-7/enable && spack compiler find
 
 # TODO: add a command to Spack that (re)creates the package cache
 RUN spack spec hdf5+mpi
