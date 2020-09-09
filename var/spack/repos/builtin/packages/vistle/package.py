@@ -34,6 +34,7 @@ class Vistle(CMakePackage):
     variant('assimp', default=False, description='Enable reading of polygonal models (.obj, .stl, ...)')
 
     conflicts('+python', when='+python2')
+    conflicts('%gcc@:4.99')
 
     extends('python', when='+python2')
     extends('python', when='+python')
