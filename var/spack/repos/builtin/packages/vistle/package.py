@@ -21,8 +21,6 @@ class Vistle(CMakePackage):
     # version('2020.02', commit='3efd1e7718d30718a6f7c0cddc3999928dc02a9d', submodules=True)
     # version('2020.08', commit='aaf99ff79145c10a6ba4754963266244b1481660', submodules=True)
 
-    variant('static', default=False, description='Do not build shared libraries')
-    variant('single', default=True, description='Use a single process with many threads')
     variant('rr', default=True, description='Enable remote rendering')
     variant('python2', default=False, description='Enable Python2 support')
     variant('python', default=True, description='Enable Python(3) support')
@@ -32,6 +30,11 @@ class Vistle(CMakePackage):
     variant('osg', default=False, description='Build renderer relying on OpenSceneGraph')
     variant('vr', default=False, description='Build virtual environment render module based on OpenCOVER')
     variant('assimp', default=False, description='Enable reading of polygonal models (.obj, .stl, ...)')
+
+    variant('static', default=False, description='Do not build shared libraries')
+    variant('multi', default=False, description='Use a process per module')
+    variant('double', default=False, description='Use double precision scalars')
+    variant('large', default=False, description='Use 64-bit indices')
 
     conflicts('+python', when='+python2')
     conflicts('%gcc@:4.99')
@@ -89,15 +92,25 @@ class Vistle(CMakePackage):
             args.extend([
                 '-DVISTLE_USE_PYTHON3=OFF'
             ])
-        if '+single' in spec:
-            args.append('-DVISTLE_MULTI_PROCESS=OFF')
-        else:
+        if '+multi' in spec:
             args.append('-DVISTLE_MULTI_PROCESS=ON')
+        else:
+            args.append('-DVISTLE_MULTI_PROCESS=OFF')
 
         if '+static' in spec:
             args.extend([
                 '-DVISTLE_BUILD_SHARED=OFF',
                 '-DVISTLE_MODULES_SHARED=OFF'
             ])
+
+        if '+double' in spec:
+            args.append('-DVISTLE_DOUBLE_PRECISION=ON')
+        else:
+            args.append('-DVISTLE_DOUBLE_PRECISION=OFF')
+
+        if '+large' in spec:
+            args.append('-DVISTLE_64BIT_INDICES=ON')
+        else:
+            args.append('-DVISTLE_64BIT_INDICES=OFF')
 
         return args
