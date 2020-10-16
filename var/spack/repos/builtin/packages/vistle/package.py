@@ -1,7 +1,9 @@
-# Copyright 2020 Martin Aumüller <aumuell@reserv.at>
+# Copyright 2013-2020 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack import *
-#import os
 
 
 class Vistle(CMakePackage):
