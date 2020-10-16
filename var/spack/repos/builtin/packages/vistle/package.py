@@ -1,0 +1,97 @@
+# Copyright 2020 Martin Aumüller <aumueller@hlrs.de>
+
+from spack import *
+import os
+
+
+class Vistle(CMakePackage):
+    """Vistle is an open-source tool for visualization of scientific data in VR."""
+
+    homepage = 'https://www.vistle.io'
+    git      = "https://github.com/vistle/vistle.git"
+
+    #maintainers = ['chuckatkins', 'danlipsa']
+
+    version('develop', branch='master', submodules=True)
+    #version('2020.02', commit='3efd1e7718d30718a6f7c0cddc3999928dc02a9d', submodules=True)
+    #version('2020.08', commit='aaf99ff79145c10a6ba4754963266244b1481660', submodules=True)
+
+    variant('static', default=False, description='Do not build shared libraries')
+    variant('single', default=True, description='Use a single process with many threads')
+    variant('rr', default=True, description='Enable remote rendering')
+    variant('python2', default=False, description='Enable Python2 support')
+    variant('python', default=True, description='Enable Python(3) support')
+    variant('qt', default=False, description='Enable Qt (gui) support')
+    variant('vtk', default=False, description='Enable reading VTK data')
+    variant('netcdf', default=False, description='Enable reading of WRF data')
+    variant('osg', default=False, description='Build renderer relying on OpenSceneGraph')
+    variant('vr', default=False, description='Build virtual environment render module based on OpenCOVER')
+    variant('assimp', default=False, description='Enable reading of polygonal models (.obj, .stl, ...)')
+
+    conflicts('+python', when='+python2')
+
+    extends('python', when='+python2')
+    extends('python', when='+python')
+
+    depends_on('python@2.7:2.8', when='+python2', type=('build', 'run'))
+    depends_on('python@3:', when='+python', type=('build', 'run'))
+
+    depends_on('mpi')
+    depends_on('botan')
+    depends_on('boost+pic@:1.73')
+
+    depends_on('netcdf-cxx4', when='+netcdf')
+    depends_on('cmake@3.3:', type='build')
+
+    depends_on('tbb')
+
+    depends_on('zstd')
+    depends_on('lz4')
+    depends_on('snappy')
+
+    depends_on('zlib')
+    depends_on('libzip')
+    depends_on('libarchive')
+
+    depends_on('vtk', when='+vtk')
+    depends_on('tinyxml2', when='+vtk')
+
+    depends_on('assimp', when='+assimp')
+    depends_on('proj')
+
+    depends_on('openscenegraph', when='+osg')
+
+    depends_on('jpeg', when='+rr')
+    depends_on('embree', when='+rr')
+    depends_on('ispc', when='+rr')
+
+    depends_on('covise', when='+vr')
+
+    def cmake_args(self):
+        """Populate cmake arguments for Vistle."""
+        spec = self.spec
+
+        args = []
+
+        args.append('-DVISTLE_PEDANTIC_ERRORS=OFF')
+
+        if '+python' in spec:
+            args.extend([
+                '-DVISTLE_USE_PYTHON3=ON'
+            ])
+        if '+python2' in spec:
+            args.extend([
+                '-DVISTLE_USE_PYTHON3=OFF'
+            ])
+        if '+single' in spec:
+            args.append('-DVISTLE_MULTI_PROCESS=OFF')
+        else:
+            args.append('-DVISTLE_MULTI_PROCESS=ON')
+
+        if '+static' in spec:
+            args.extend([
+                '-DVISTLE_BUILD_SHARED=OFF',
+                '-DVISTLE_MODULES_SHARED=OFF'
+            ])
+
+        return args
