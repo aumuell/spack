@@ -69,6 +69,8 @@ class Vistle(CMakePackage):
     depends_on('proj')
 
     depends_on('openscenegraph', when='+osg')
+    depends_on('glew', when='+osg')
+    depends_on('glu', when='+osg')
 
     depends_on('jpeg', when='+rr')
     depends_on('embree+ispc', when='+rr')
