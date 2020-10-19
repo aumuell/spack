@@ -32,6 +32,7 @@ class Vistle(CMakePackage):
     variant('osg', default=False, description='Build renderer relying on OpenSceneGraph')
     variant('vr', default=False, description='Build virtual environment render module based on OpenCOVER')
     variant('assimp', default=False, description='Enable reading of polygonal models (.obj, .stl, ...)')
+    variant('proj', default=False, description='Enable MapDrape module for carthographic coordinate mappings')
 
     variant('static', default=False, description='Do not build shared libraries')
     variant('multi', default=False, description='Use a process per module')
@@ -62,7 +63,7 @@ class Vistle(CMakePackage):
 
     depends_on('zlib')
     depends_on('libzip')
-    depends_on('libarchive')
+    #depends_on('libarchive')
 
     depends_on('vtk', when='+vtk')
     depends_on('tinyxml2', when='+vtk')
@@ -70,7 +71,7 @@ class Vistle(CMakePackage):
     depends_on('assimp', when='+assimp')
     #if spec.satisfies('^assimp'):
     #    depends_on('assimp')
-    depends_on('proj')
+    depends_on('proj', when='+proj')
 
     depends_on('openscenegraph@3.4:', when='+osg')
     depends_on('glew', when='+osg')
