@@ -18,13 +18,16 @@ class Vistle(CMakePackage):
     maintainers = ['aumuell']
 
     version('develop', branch='master', submodules=True)
-    # version('2020.02', commit='3efd1e7718d30718a6f7c0cddc3999928dc02a9d', submodules=True)
-    # version('2020.08', commit='aaf99ff79145c10a6ba4754963266244b1481660', submodules=True)
+    version('2019.9', tag='v2019.9', submodules=True)
+    version('2020.1', tag='v2020.1', submodules=True)
+    version('2020.2', commit='3efd1e7718d30718a6f7c0cddc3999928dc02a9d', submodules=True)
+    version('2020.8', commit='aaf99ff79145c10a6ba4754963266244b1481660', submodules=True)
+    version('2020.9', tag='v2020.9', submodules=True)
 
     variant('rr', default=True, description='Enable remote rendering')
     variant('python2', default=False, description='Enable Python2 support')
     variant('python', default=True, description='Enable Python(3) support')
-    variant('qt', default=False, description='Enable Qt (gui) support')
+    variant('qt', default=False, description='Build graphical workflow editor relying ond Qt')
     variant('vtk', default=False, description='Enable reading VTK data')
     variant('netcdf', default=False, description='Enable reading of WRF data')
     variant('osg', default=False, description='Build renderer relying on OpenSceneGraph')
