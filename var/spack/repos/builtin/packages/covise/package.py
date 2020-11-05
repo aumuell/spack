@@ -43,10 +43,10 @@ class Covise(CMakePackage):
 
     depends_on('cfitsio')
     depends_on('cgns')
-    depends_on('vtk')
+    #depends_on('vtk')
 
     depends_on('ffmpeg')
-    depends_on('embree')
+    #depends_on('embree')
     depends_on('libtiff')
     depends_on('libpng')
     depends_on('zlib')
@@ -55,7 +55,7 @@ class Covise(CMakePackage):
     depends_on('hdf5')
 
     depends_on('libmicrohttpd')
-    depends_on('openssl')
+    #depends_on('openssl')
     depends_on('gdal')
     depends_on('proj')
     depends_on('speex')
@@ -70,11 +70,13 @@ class Covise(CMakePackage):
     def cmake_args(self):
         """Populate cmake arguments for COVISE."""
 
+        spec = self.spec
+
         args = []
 
         args.append('-DCOVISE_WARNING_IS_ERROR=OFF')
         args.append('-DCOVISE_USE_VISIONARAY=OFF')
         args.append('-DCOVISE_USE_CUDA:BOOL=OFF')
-        args.append('-DCOVISE_CPU_ARCH:STRING='+spec.target)
+        args.append('-DCOVISE_CPU_ARCH:STRING=')
 
         return args
