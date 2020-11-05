@@ -75,5 +75,6 @@ class Covise(CMakePackage):
         args.append('-DCOVISE_WARNING_IS_ERROR=OFF')
         args.append('-DCOVISE_USE_VISIONARAY=OFF')
         args.append('-DCOVISE_USE_CUDA:BOOL=OFF')
+        args.append('-DCOVISE_CPU_ARCH:STRING='+spec.target)
 
         return args
