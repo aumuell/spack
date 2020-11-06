@@ -71,8 +71,6 @@ class Covise(CMakePackage):
     def cmake_args(self):
         """Populate cmake arguments for COVISE."""
 
-        spec = self.spec
-
         args = []
 
         args.append('-DCOVISE_WARNING_IS_ERROR=OFF')
