@@ -33,7 +33,8 @@ class Covise(CMakePackage):
     depends_on('mpi')
     depends_on('boost+pic')
 
-    # depends_on('netcdf-cxx4', when='+netcdf')
+    depends_on('netcdf-cxx4', when='+netcdf')
+    #depends_on('netcdf-cxx4')
     depends_on('cmake@3.3:', type='build')
 
     depends_on('tbb')
