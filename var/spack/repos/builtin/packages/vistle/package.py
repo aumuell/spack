@@ -46,7 +46,7 @@ class Vistle(CMakePackage):
 
     depends_on('mpi')
     depends_on('botan')
-    depends_on('boost+pic')
+    depends_on('boost+pic@1.59:')
 
     depends_on('netcdf-cxx4', when='+netcdf')
     depends_on('cmake@3.3:', type='build')
@@ -67,7 +67,7 @@ class Vistle(CMakePackage):
     depends_on('assimp', when='+assimp')
     depends_on('proj')
 
-    depends_on('openscenegraph', when='+osg')
+    depends_on('openscenegraph@3.4:', when='+osg')
     depends_on('glew', when='+osg')
     depends_on('glu', when='+osg')
 
@@ -75,7 +75,7 @@ class Vistle(CMakePackage):
     depends_on('embree+ispc', when='+rr')
     depends_on('ispc', when='+rr', type='build')
 
-    depends_on('covise', when='+vr')
+    depends_on('covise@2020.9:', when='+vr')
 
     def cmake_args(self):
         """Populate cmake arguments for Vistle."""
