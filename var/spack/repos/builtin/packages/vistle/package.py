@@ -25,8 +25,7 @@ class Vistle(CMakePackage):
     version('2020.9', tag='v2020.9', submodules=True)
 
     variant('rr', default=True, description='Enable remote rendering')
-    variant('python2', default=False, description='Enable Python2 support')
-    variant('python', default=True, description='Enable Python(3) support')
+    variant('python', default=True, description='Enable Python support')
     variant('qt', default=False, description='Build graphical workflow editor relying ond Qt')
     variant('vtk', default=False, description='Enable reading VTK data')
     variant('netcdf', default=False, description='Enable reading of WRF data')
@@ -39,14 +38,11 @@ class Vistle(CMakePackage):
     variant('double', default=False, description='Use double precision scalars')
     variant('large', default=False, description='Use 64-bit indices')
 
-    conflicts('+python', when='+python2')
     conflicts('%gcc@:4.99')
 
-    extends('python', when='+python2')
     extends('python', when='+python')
 
-    depends_on('python@2.7:2.8', when='+python2', type=('build', 'run'))
-    depends_on('python@3:', when='+python', type=('build', 'run'))
+    depends_on('python@2.7:', when='+python', type=('build', 'run'))
 
     depends_on('mpi')
     depends_on('botan')
@@ -90,13 +86,14 @@ class Vistle(CMakePackage):
         args.append('-DVISTLE_PEDANTIC_ERRORS=OFF')
 
         if '+python' in spec:
-            args.extend([
-                '-DVISTLE_USE_PYTHON3=ON'
-            ])
-        if '+python2' in spec:
-            args.extend([
-                '-DVISTLE_USE_PYTHON3=OFF'
-            ])
+            if spec.satisfies('^python@:2.99'):
+                args.extend([
+                    '-DVISTLE_USE_PYTHON2=ON'
+                ])
+            else:
+                args.extend([
+                    '-DVISTLE_USE_PYTHON2=OFF'
+                ])
         if '+multi' in spec:
             args.append('-DVISTLE_MULTI_PROCESS=ON')
         else:
