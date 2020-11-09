@@ -18,8 +18,9 @@ class Covise(CMakePackage):
     # version('1.2.3', '0123456789abcdef0123456789abcdef')
     version('develop', branch='master', submodules=True)
 
-    depends_on('python@2.7:2.8', when='+python2', type=('build', 'run'))
-    depends_on('python@3:', when='+python', type=('build', 'run'))
+    depends_on('cmake@3.3:', type='build')
+
+    depends_on('python@2.7:', type=('build', 'run'))
 
     depends_on('flex', type='build')
     depends_on('bison', type='build')
@@ -33,9 +34,8 @@ class Covise(CMakePackage):
     depends_on('mpi')
     depends_on('boost+pic')
 
-    depends_on('netcdf-cxx4', when='+netcdf')
-    #depends_on('netcdf-cxx4')
-    depends_on('cmake@3.3:', type='build')
+    #depends_on('netcdf-cxx4', when='+netcdf')
+    depends_on('netcdf-cxx4')
 
     depends_on('tbb')
 
@@ -77,5 +77,6 @@ class Covise(CMakePackage):
         args.append('-DCOVISE_USE_VISIONARAY=OFF')
         args.append('-DCOVISE_USE_CUDA:BOOL=OFF')
         args.append('-DCOVISE_CPU_ARCH:STRING=')
+        args.append('-DARCHSUFFIX:STRING=spack')
 
         return args
