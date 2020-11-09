@@ -75,7 +75,7 @@ class Vistle(CMakePackage):
     depends_on('embree+ispc', when='+rr')
     depends_on('ispc', when='+rr', type='build')
 
-    depends_on('covise@2020.9:', when='+vr')
+    depends_on('covise@2020.11:', when='+vr')
 
     def cmake_args(self):
         """Populate cmake arguments for Vistle."""
@@ -84,6 +84,7 @@ class Vistle(CMakePackage):
         args = []
 
         args.append('-DVISTLE_PEDANTIC_ERRORS=OFF')
+        args.append('-DCOVISE_ARCHSUFFIX=spack')
 
         if '+python' in spec:
             if spec.satisfies('^python@:2.99'):
