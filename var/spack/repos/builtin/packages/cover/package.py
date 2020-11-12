@@ -1,0 +1,70 @@
+# Copyright 2013-2020 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
+from spack import *
+
+
+class Cover(CMakePackage):
+    """Collaborative Visualization and Simulation Environment"""
+
+    homepage = "https://www.hlrs.de/opencover"
+    git      = "https://github.com/hlrs-vis/covise.git"
+
+    maintainers = ['aumuell']
+
+    # FIXME: Add proper versions and checksums here.
+    # version('1.2.3', '0123456789abcdef0123456789abcdef')
+    version('develop', branch='master', submodules=True)
+
+    depends_on('cmake@3.3:', type='build')
+
+    depends_on('python@2.7:', type=('build', 'run'))
+
+    depends_on('flex', type='build')
+    depends_on('bison', type='build')
+    depends_on('swig', type='build')
+
+    depends_on('xerces-c')
+    depends_on('curl')
+    depends_on('qt+opengl')
+    depends_on('glu')
+    depends_on('glew')
+    depends_on('mpi')
+    depends_on('boost+pic')
+    depends_on('cfitsio')
+
+    depends_on('tbb')
+
+    depends_on('ffmpeg')
+    depends_on('embree')
+    depends_on('libtiff')
+    depends_on('libpng')
+    depends_on('zlib')
+    depends_on('libjpeg-turbo')
+
+    #depends_on('openssl')
+    depends_on('speex')
+
+    # depends_on('vtk', when='+vtk')
+
+    # depends_on('assimp', when='+assimp')
+
+    # depends_on('openscenegraph', when='+osg')
+    depends_on('openscenegraph')
+
+    def cmake_args(self):
+        """Populate cmake arguments for COVISE."""
+
+        args = []
+
+        args.append('-DCOVISE_WARNING_IS_ERROR=OFF')
+        args.append('-DCOVISE_BUILD_ONLY_COVER=ON')
+        args.append('-DCOVISE_USE_VISIONARAY=OFF')
+        args.append('-DCOVISE_USE_VIRVO=ON')
+        args.append('-DCOVISE_USE_CUDA:BOOL=OFF')
+        args.append('-DCOVISE_CPU_ARCH:STRING=')
+        args.append('-DARCHSUFFIX:STRING=spack')
+
+        return args
