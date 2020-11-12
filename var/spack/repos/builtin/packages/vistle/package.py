@@ -75,7 +75,7 @@ class Vistle(CMakePackage):
     depends_on('embree+ispc', when='+rr')
     depends_on('ispc', when='+rr', type='build')
 
-    depends_on('covise@2020.11:', when='+vr')
+    depends_on('cover@2020.11:', when='+vr')
 
     def cmake_args(self):
         """Populate cmake arguments for Vistle."""
