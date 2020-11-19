@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+import sys
 
 class Glew(CMakePackage):
     """The OpenGL Extension Wrangler Library."""
@@ -15,8 +16,8 @@ class Glew(CMakePackage):
     version('2.0.0',  sha256='c572c30a4e64689c342ba1624130ac98936d7af90c3103f9ce12b8a0c5736764')
 
     depends_on("gl")
-    depends_on('libsm')
-    depends_on('libice')
+    depends_on('libsm', when=(sys.platform != 'darwin'))
+    depends_on('libice', when=(sys.platform != 'darwin'))
 
     root_cmakelists_dir = "build/cmake"
 
