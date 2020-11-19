@@ -46,9 +46,12 @@ class Vistle(CMakePackage):
 
     depends_on('mpi')
     depends_on('botan')
-    depends_on('boost+pic@1.59:')
+    depends_on('boost@1.59:')
+    depends_on('boost+pic')
 
     depends_on('netcdf-cxx', when='+netcdf')
+    #if spec.satisfies('^netcdf-cxx'):
+    #    depends_on('netcdf-cxx')
     depends_on('cmake@3.3:', type='build')
 
     depends_on('tbb')
@@ -65,11 +68,17 @@ class Vistle(CMakePackage):
     depends_on('tinyxml2', when='+vtk')
 
     depends_on('assimp', when='+assimp')
+    #if spec.satisfies('^assimp'):
+    #    depends_on('assimp')
     depends_on('proj')
 
     depends_on('openscenegraph@3.4:', when='+osg')
     depends_on('glew', when='+osg')
     depends_on('glu', when='+osg')
+    #if spec.satisfies('^openscenegraph@3.4:') \
+    #        and spec.satisfies('^glew') \
+    #        and spec.satisfies('^glu'):
+    #    depends_on('openscenegraph@3.4:')
 
     depends_on('jpeg', when='+rr')
     depends_on('embree+ispc', when='+rr')
