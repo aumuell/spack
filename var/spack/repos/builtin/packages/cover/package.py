@@ -31,7 +31,7 @@ class Cover(CMakePackage):
 
     depends_on('flex', type='build')
     depends_on('bison', type='build')
-    #depends_on('swig', type='build')
+    depends_on('swig', type='build')
 
     depends_on('xerces-c')
     depends_on('curl')
@@ -46,34 +46,35 @@ class Cover(CMakePackage):
     depends_on('boost')
     #depends_on('tbb', when='+virvo')
 
-    #depends_on('cfitsio')
+    #depends_on('cfitsio', when='+virvo')
 
-    #depends_on('ffmpeg')
+    depends_on('ffmpeg')
     depends_on('embree', when='+embree')
 
     depends_on('zlib')
     depends_on('libpng')
     depends_on('libtiff')
-
-    #depends_on('libjpeg-turbo')
+    depends_on('libjpeg-turbo')
 
     #depends_on('speex')
 
     package_spec = {
         'cfitsio': 'cfitsio',
         'Boost': 'boost',
+        'OPENSSL': 'openssl',
         'OpenSSL': 'openssl',
         'Git': 'git',
         'VTK': 'vtk',
-        'SWIG': 'swig',
         'JPEGTURBO': 'libjpeg-turbo',
         'JPEG': 'jpeg',
         'FFMPEG': 'ffmpeg',
-        'Snappy': 'snappy',
+        'FFMPEG_SWSCALE': 'ffmpeg',
+        'SNAPPY': 'snappy',
         'TBB': 'tbb',
         'MPI': 'mpi',
         'FLEX': 'flex',
         'BISON': 'bison',
+        'SWIG': 'swig',
         'embree': 'embree',
         'SPEEX': 'speex',
         'PROJ4': 'proj',
@@ -125,10 +126,17 @@ class Cover(CMakePackage):
         'OSC': None,
         'WMFSDK': None,
         'Surface': None,
-        #'PTHREAD': None,
         'OpenEXR': 'openexr',
         'CUDA': 'cuda',
         'PbrtParser': None,
+        'Bonjour': None,
+        'VolPack': None,
+        'Nifti': None,
+        'NORM': None,
+        'Protokit': None,
+        'Teem': None,
+        'GDCM': None,
+        #'PTHREAD': None,
     }
 
     def cmake_args(self):
