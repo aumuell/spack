@@ -5,6 +5,7 @@
 
 from spack import *
 
+import sys
 
 class Openscenegraph(CMakePackage):
     """OpenSceneGraph is an open source, high performance 3D graphics toolkit
@@ -29,8 +30,8 @@ class Openscenegraph(CMakePackage):
     depends_on('qt+opengl', when='@:3.5.4')  # Qt windowing system was moved into separate osgQt project
     depends_on('qt@4:', when='@3.2:3.5.4')
     depends_on('qt@:4', when='@:3.1')
-    depends_on('libxinerama')
-    depends_on('libxrandr')
+    depends_on('libxinerama', when=(sys.platform != 'darwin'))
+    depends_on('libxrandr', when=(sys.platform != 'darwin'))
     depends_on('libpng')
     depends_on('jasper')
     depends_on('libtiff')
