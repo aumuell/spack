@@ -580,9 +580,10 @@ class Openmpi(AutotoolsPackage):
         # dependencies depends_on('mpi'), require Fortran compiler to
         # avoid delayed build errors in dependents.
         if (self.compiler.f77 is None) or (self.compiler.fc is None):
-            raise InstallError(
-                'OpenMPI requires both C and Fortran compilers!'
-            )
+            #raise InstallError(
+            #    'OpenMPI requires both C and Fortran compilers!'
+            #)
+            return True
 
     @when('@develop')
     def autoreconf(self, spec, prefix):
