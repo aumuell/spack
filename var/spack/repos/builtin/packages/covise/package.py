@@ -5,10 +5,10 @@
 
 from spack import *
 
-from spack.pkg.builtin.cover import Cover
+from spack.pkg.builtin.opencover import Opencover
 
 
-class Covise(Cover):
+class Covise(Opencover):
     """Collaborative Visualization and Simulation Environment"""
 
     homepage = "https://www.hlrs.de/covise"
@@ -20,7 +20,7 @@ class Covise(Cover):
     # version('1.2.3', '0123456789abcdef0123456789abcdef')
     version('develop', branch='master', submodules=True)
 
-    provides('cover@develop')
+    provides('cover')
 
     variant('vtk', default=False, description='Read VTK data')
     variant('assimp', default=False, description='Read polygonal models in various formats')
@@ -53,6 +53,6 @@ class Covise(Cover):
     def cmake_args(self):
         """Populate cmake arguments for COVISE."""
 
-        args = Cover.cmake_covise_args(self)
+        args = Opencover.cmake_covise_args(self)
 
         return args
