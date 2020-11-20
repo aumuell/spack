@@ -138,7 +138,30 @@ class Opencover(CMakePackage):
         'Teem': None,
         'GDCM': None,
         'Audiofile': None,
+
         #'PTHREAD': None,
+
+        'Coin3D': 'coin3d',
+        'Microhttpd': 'libmicrohttpd',
+        'Motif': 'motif',
+        'ASSIMP': 'assimp',
+        'LibArchive': 'libarchive',
+        'LibZip': 'libzip',
+        'NetCDF': 'netcdf-cxx',
+        'CGNS': 'cgns',
+        'HDF5': 'hdf5',
+        'V8': None,
+
+        'Revit': None,
+        'Inventor': None,
+        'SoQt': None,
+        'CFX': None,
+        'Abaqus': None,
+        'ITK': 'itk',
+        'BIFBOF': None,
+        'Bullet': None,
+        'Xenomai': None,
+        'CAL3D': None,
     }
 
     def cmake_disable_implicit_deps(self, args):
@@ -170,7 +193,7 @@ class Opencover(CMakePackage):
         args.append('-DCOVISE_CPU_ARCH:STRING=')
         args.append('-DARCHSUFFIX:STRING=spack')
 
-        return cmake_disable_implicit_deps(self, args)
+        return self.cmake_disable_implicit_deps(args)
 
 
     def cmake_args(self):
@@ -182,4 +205,4 @@ class Opencover(CMakePackage):
 
         args.append('-DCOVISE_BUILD_ONLY_COVER=ON')
 
-        return cmake_disable_implicit_deps(self, args)
+        return self.cmake_disable_implicit_deps(args)
