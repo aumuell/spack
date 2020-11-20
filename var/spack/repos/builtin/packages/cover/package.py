@@ -15,11 +15,13 @@ class Cover(CMakePackage):
 
     maintainers = ['aumuell']
 
+    provides('cover')
+
     # FIXME: Add proper versions and checksums here.
     # version('1.2.3', '0123456789abcdef0123456789abcdef')
     version('develop', branch='master', submodules=True)
 
-    variant('x11', default=not platform=='darwin', description='Use X11 Window system')
+    variant('X', default=not platform=='darwin', description='Use X11 Window system')
     variant('mpi', default=False, description='Enable MPI support - required for Vistle')
     variant('embree', default=False, description='Interactive spray simulation')
     variant('virvo', default=True, description='Enable volume rendering')
@@ -139,7 +141,20 @@ class Cover(CMakePackage):
         #'PTHREAD': None,
     }
 
-    def cmake_args(self):
+    def cmake_disable_implicit_deps(self, args):
+        """Append flags to disable searching for packages in standard locations."""
+
+        spec = self.spec
+
+        for package in self.package_spec:
+            s = self.package_spec[package]
+            if not s or not spec.satisfies('^'+s):
+                args.append('-DCMAKE_DISABLE_FIND_PACKAGE_'+package+'=TRUE')
+
+        return args
+
+
+    def cmake_covise_args(self):
         """Populate cmake arguments for COVISE."""
 
         spec = self.spec
@@ -151,14 +166,20 @@ class Cover(CMakePackage):
         ]
 
         args.append('-DCOVISE_WARNING_IS_ERROR=OFF')
-        args.append('-DCOVISE_BUILD_ONLY_COVER=ON')
 
         args.append('-DCOVISE_CPU_ARCH:STRING=')
         args.append('-DARCHSUFFIX:STRING=spack')
 
-        for package in self.package_spec:
-            s = self.package_spec[package]
-            if not s or not spec.satisfies('^'+s):
-                args.append('-DCMAKE_DISABLE_FIND_PACKAGE_'+package+'=TRUE')
+        return cmake_disable_implicit_deps(self, args)
 
-        return args
+
+    def cmake_args(self):
+        """Populate cmake arguments for COVER."""
+
+        spec = self.spec
+
+        args = cmake_covise_args(self)
+
+        args.append('-DCOVISE_BUILD_ONLY_COVER=ON')
+
+        return cmake_disable_implicit_deps(self, args)
