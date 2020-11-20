@@ -5,8 +5,10 @@
 
 from spack import *
 
+from spack.pkg.builtin.cover import Cover
 
-class Covise(CMakePackage):
+
+class Covise(Cover):
     """Collaborative Visualization and Simulation Environment"""
 
     homepage = "https://www.hlrs.de/covise"
@@ -18,46 +20,28 @@ class Covise(CMakePackage):
     # version('1.2.3', '0123456789abcdef0123456789abcdef')
     version('develop', branch='master', submodules=True)
 
+    provides('cover@develop')
+
+    variant('vtk', default=False, description='Read VTK data')
+    variant('assimp', default=False, description='Read polygonal models in various formats')
+    variant('netcdf', default=False, description='Read WRFChem and other NetCDF based data formats')
+
     depends_on('cmake@3.3:', type='build')
 
     depends_on('python@2.7:', type=('build', 'run'))
 
-    depends_on('flex', type='build')
-    depends_on('bison', type='build')
-    depends_on('swig', type='build')
+    depends_on('netcdf-cxx', when='+netcdf')
 
-    depends_on('xerces-c')
-    depends_on('curl')
-    depends_on('qt+opengl')
-    depends_on('glu')
-    depends_on('glew')
-    depends_on('mpi')
-    depends_on('boost+pic')
+    #depends_on('tbb')
 
-    #depends_on('netcdf-cxx4', when='+netcdf')
-    depends_on('netcdf-cxx4')
-
-    depends_on('tbb')
-
-    depends_on('zlib')
     depends_on('libzip')
-
-    depends_on('cfitsio')
-    depends_on('cgns')
-    #depends_on('vtk')
-
-    depends_on('ffmpeg')
-    depends_on('embree')
-    depends_on('libtiff')
-    depends_on('libpng')
-    depends_on('zlib')
-    depends_on('snappy')
     depends_on('libarchive')
-    depends_on('libzip')
-    depends_on('libjpeg-turbo')
-    depends_on('assimp')
-    depends_on('hdf5')
-    depends_on('vtk')
+
+    depends_on('cgns')
+    depends_on('vtk', when='+vtk')
+
+    depends_on('assimp', when='+assimp')
+    depends_on('hdf5', when='+hdf5')
 
     depends_on('libmicrohttpd')
     #depends_on('coin3d')
@@ -65,24 +49,10 @@ class Covise(CMakePackage):
     depends_on('gdal')
     depends_on('libgeotiff')
     depends_on('proj')
-    depends_on('speex')
-
-    # depends_on('vtk', when='+vtk')
-
-    # depends_on('assimp', when='+assimp')
-
-    # depends_on('openscenegraph', when='+osg')
-    depends_on('openscenegraph')
 
     def cmake_args(self):
         """Populate cmake arguments for COVISE."""
 
-        args = []
-
-        args.append('-DCOVISE_WARNING_IS_ERROR=OFF')
-        args.append('-DCOVISE_USE_VISIONARAY=OFF')
-        args.append('-DCOVISE_USE_CUDA:BOOL=OFF')
-        args.append('-DCOVISE_CPU_ARCH:STRING=')
-        args.append('-DARCHSUFFIX:STRING=spack')
+        args = Cover.cmake_covise_args(self)
 
         return args
