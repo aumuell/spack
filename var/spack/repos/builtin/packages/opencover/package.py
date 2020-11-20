@@ -7,7 +7,7 @@ from spack import *
 
 from sys import platform
 
-class Cover(CMakePackage):
+class Opencover(CMakePackage):
     """Collaborative Visualization and Simulation Environment"""
 
     homepage = "https://www.hlrs.de/opencover"
@@ -21,7 +21,7 @@ class Cover(CMakePackage):
     # version('1.2.3', '0123456789abcdef0123456789abcdef')
     version('develop', branch='master', submodules=True)
 
-    variant('X', default=not platform=='darwin', description='Use X11 Window system')
+    variant('x11', default=not platform=='darwin', description='Use X11 Window system')
     variant('mpi', default=False, description='Enable MPI support - required for Vistle')
     variant('embree', default=False, description='Interactive spray simulation')
     variant('virvo', default=True, description='Enable volume rendering')
