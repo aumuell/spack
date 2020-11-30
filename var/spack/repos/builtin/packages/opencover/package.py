@@ -19,7 +19,7 @@ class Opencover(CMakePackage):
 
     # FIXME: Add proper versions and checksums here.
     # version('1.2.3', '0123456789abcdef0123456789abcdef')
-    version('develop', branch='master', submodules=True)
+    version('master', branch='master', submodules=True)
 
     variant('x11', default=not platform=='darwin', description='Use X11 Window system')
     variant('mpi', default=False, description='Enable MPI support - required for Vistle')

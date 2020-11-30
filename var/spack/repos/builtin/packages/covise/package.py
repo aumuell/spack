@@ -18,7 +18,7 @@ class Covise(Opencover):
 
     # FIXME: Add proper versions and checksums here.
     # version('1.2.3', '0123456789abcdef0123456789abcdef')
-    version('develop', branch='master', submodules=True)
+    version('master', branch='master', submodules=True)
 
     provides('cover')
 
