@@ -67,15 +67,17 @@ class Vistle(CMakePackage):
     depends_on('tinyxml2', when='+vtk')
 
     depends_on('assimp', when='+assimp')
-    depends_on('proj', when='+proj')
+    depends_on('proj@:7.99', when='+proj')
 
     depends_on('openscenegraph@3.4:', when='+osg')
     depends_on('glew', when='+osg')
     depends_on('glu', when='+osg')
 
     depends_on('jpeg', when='+rr')
-    depends_on('embree+ispc', when='+rr')
-    depends_on('ispc', when='+rr', type='build')
+    depends_on('embree+ispc', when='+embree')
+    depends_on('ispc', when='+embree', type='build')
+
+    depends_on('qt@5', when='+qt')
 
     #depends_on('cover@2020.11:', when='+vr')
 
