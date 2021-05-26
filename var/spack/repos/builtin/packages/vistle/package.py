@@ -120,4 +120,7 @@ class Vistle(CMakePackage):
         else:
             args.append('-DVISTLE_64BIT_INDICES=OFF')
 
+        if not '+qt' in spec:
+            args.append('-DCMAKE_DISABLE_FIND_PACKAGE_Qt5Core=TRUE')
+
         return args
