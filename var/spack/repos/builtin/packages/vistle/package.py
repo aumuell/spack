@@ -27,6 +27,7 @@ class Vistle(CMakePackage):
     variant('embree', default=True, description='Enable remote rendering')
     variant('python', default=True, description='Enable Python support')
     variant('qt', default=False, description='Build graphical workflow editor relying ond Qt')
+    variant('tui', default=False, description='Install interactive command line ineterface')
     variant('vtk', default=False, description='Enable reading VTK data')
     variant('netcdf', default=False, description='Enable reading of WRF data')
     variant('osg', default=False, description='Build renderer relying on OpenSceneGraph')
@@ -44,6 +45,7 @@ class Vistle(CMakePackage):
     extends('python', when='+python')
 
     depends_on('python@2.7:', when='+python', type=('build', 'run'))
+    depends_on('py-ipython', when='+tui', type=('run'))
 
     depends_on('mpi')
     depends_on('botan')
