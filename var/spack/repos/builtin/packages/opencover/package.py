@@ -40,7 +40,7 @@ class Opencover(CMakePackage):
     depends_on('qt+opengl')
     depends_on('glu')
     depends_on('glew')
-    depends_on('openscenegraph')
+    depends_on('openscenegraph@3.2:')
     depends_on('libx11', when='+x11')
 
     depends_on('mpi', when='+mpi')
@@ -201,7 +201,7 @@ class Opencover(CMakePackage):
 
         spec = self.spec
 
-        args = cmake_covise_args(self)
+        args = self.cmake_covise_args()
 
         args.append('-DCOVISE_BUILD_ONLY_COVER=ON')
 

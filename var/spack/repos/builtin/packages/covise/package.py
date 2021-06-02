@@ -26,6 +26,7 @@ class Covise(Opencover):
     variant('assimp', default=False, description='Read polygonal models in various formats')
     variant('netcdf', default=False, description='Read WRFChem and other NetCDF based data formats')
 
+    depends_on('git', type='build')
     depends_on('cmake@3.3:', type='build')
 
     depends_on('python@2.7:', type=('build', 'run'))
@@ -48,7 +49,7 @@ class Covise(Opencover):
     #depends_on('openssl')
     depends_on('gdal')
     depends_on('libgeotiff')
-    depends_on('proj')
+    depends_on('proj@:8.99')
 
     def cmake_args(self):
         """Populate cmake arguments for COVISE."""
