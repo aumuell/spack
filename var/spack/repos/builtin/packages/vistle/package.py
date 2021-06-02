@@ -31,7 +31,7 @@ class Vistle(CMakePackage):
     variant('vtk', default=False, description='Enable reading VTK data')
     variant('netcdf', default=False, description='Enable reading of WRF data')
     variant('osg', default=False, description='Build renderer relying on OpenSceneGraph')
-    #variant('vr', default=False, description='Build virtual environment render module based on OpenCOVER')
+    variant('vr', default=False, description='Build virtual environment render module based on OpenCOVER')
     variant('assimp', default=False, description='Enable reading of polygonal models (.obj, .stl, ...)')
     variant('proj', default=False, description='Enable MapDrape module for carthographic coordinate mappings')
 
@@ -81,7 +81,7 @@ class Vistle(CMakePackage):
 
     depends_on('qt@5', when='+qt')
 
-    #depends_on('cover@2020.11:', when='+vr')
+    depends_on('cover@2020.11:', when='+vr')
 
     def cmake_args(self):
         """Populate cmake arguments for Vistle."""
