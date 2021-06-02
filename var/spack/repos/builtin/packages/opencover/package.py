@@ -164,6 +164,10 @@ class Opencover(CMakePackage):
         'CAL3D': None,
     }
 
+    def setup_build_environment(self, env):
+        """Remove environment variables that let CMake find packages outside the spack tree."""
+        env.unset('EXTERNLIBS')
+
     def cmake_disable_implicit_deps(self, args):
         """Append flags to disable searching for packages in standard locations."""
 
