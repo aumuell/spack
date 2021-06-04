@@ -166,16 +166,12 @@ class Opencover(CMakePackage):
 
     def setup_build_environment(self, env):
         """Remove environment variables that let CMake find packages outside the spack tree."""
+        env.set('ARCHSUFFIX','spack')
         env.unset('EXTERNLIBS')
         env.unset('COVISEDIR')
         env.unset('COVISEDESTDIR')
+        env.unset('COVISE_PATH')
 
-
-    def setup_run_environment(self, env):
-        """Remove environment variables that let CMake find packages outside the spack tree."""
-        env.unset('EXTERNLIBS')
-        env.unset('COVISEDIR')
-        env.unset('COVISEDESTDIR')
 
     def cmake_disable_implicit_deps(self, args):
         """Append flags to disable searching for packages in standard locations."""
