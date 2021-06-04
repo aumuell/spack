@@ -81,7 +81,7 @@ class Vistle(CMakePackage):
 
     depends_on('qt@5', when='+qt')
 
-    depends_on('cover@2020.11:', when='+vr')
+    depends_on('opencover+mpi@2020.11:', when='+vr')
 
     def cmake_args(self):
         """Populate cmake arguments for Vistle."""
