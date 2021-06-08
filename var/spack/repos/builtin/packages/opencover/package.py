@@ -99,7 +99,7 @@ class HlrsCMakePackage(CMakePackage):
         'assimp': 'assimp',
         'LibArchive': 'libarchive',
         'LibZip': 'libzip',
-        'NetCDF': 'netcdf-cxx',
+        'NETCDF': 'netcdf-cxx4',
         'CGNS': 'cgns',
         'HDF5': 'hdf5',
         'V8': None,

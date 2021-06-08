@@ -31,7 +31,7 @@ class Covise(Opencover):
 
     depends_on('python@2.7:', type=('build', 'run'))
 
-    depends_on('netcdf-cxx', when='+netcdf')
+    depends_on('netcdf-cxx4', when='+netcdf')
 
     #depends_on('tbb')
 
