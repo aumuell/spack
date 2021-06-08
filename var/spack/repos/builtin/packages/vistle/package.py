@@ -5,8 +5,9 @@
 
 from spack import *
 
+from spack.pkg.builtin.opencover import HlrsCMakePackage
 
-class Vistle(CMakePackage):
+class Vistle(HlrsCMakePackage):
     """Vistle is a tool for visualization of scientific data in VR.
 
     Notable features are distributed workflows and low-latency remote
@@ -34,6 +35,7 @@ class Vistle(CMakePackage):
     variant('vr', default=False, description='Build virtual environment render module based on OpenCOVER')
     variant('assimp', default=False, description='Enable reading of polygonal models (.obj, .stl, ...)')
     variant('proj', default=False, description='Enable MapDrape module for carthographic coordinate mappings')
+    variant('gdal', default=False, description='Enable IsoHeightSurface module for carthographic coordinate mappings')
 
     variant('static', default=False, description='Do not build shared libraries')
     variant('multi', default=False, description='Use a process per module')
@@ -71,6 +73,8 @@ class Vistle(CMakePackage):
     depends_on('assimp', when='+assimp')
     depends_on('proj@:7.99', when='+proj')
 
+    depends_on('gdal', when='+gdal')
+
     depends_on('openscenegraph@3.4:', when='+osg')
     depends_on('glew', when='+osg')
     depends_on('glu', when='+osg')
@@ -80,8 +84,17 @@ class Vistle(CMakePackage):
     depends_on('ispc', when='+embree', type='build')
 
     depends_on('qt@5', when='+qt')
+    depends_on('qt@5', when='+vr')
 
     depends_on('opencover+mpi@2020.11:', when='+vr')
+
+    def setup_build_environment(self, env):
+        """Remove environment variables that let CMake find packages outside the spack tree."""
+        env.set('ARCHSUFFIX','spack')
+        env.unset('EXTERNLIBS')
+        env.unset('COVISEDIR')
+        env.unset('COVISEDESTDIR')
+        env.unset('COVISE_PATH')
 
     def cmake_args(self):
         """Populate cmake arguments for Vistle."""
@@ -125,4 +138,4 @@ class Vistle(CMakePackage):
         if not '+qt' in spec:
             args.append('-DCMAKE_DISABLE_FIND_PACKAGE_Qt5Core=TRUE')
 
-        return args
+        return self.cmake_disable_implicit_deps(args)
