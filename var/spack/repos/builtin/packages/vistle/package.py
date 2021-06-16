@@ -96,6 +96,9 @@ class Vistle(HlrsCMakePackage):
         env.unset('COVISEDESTDIR')
         env.unset('COVISE_PATH')
 
+    def setup_run_environment(self, env):
+        env.set('VISTLE_ROOT', self.prefix)
+
     def cmake_args(self):
         """Populate cmake arguments for Vistle."""
         spec = self.spec
