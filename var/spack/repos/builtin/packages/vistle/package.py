@@ -43,10 +43,11 @@ class Vistle(HlrsCMakePackage):
     variant('large', default=False, description='Use 64-bit indices')
 
     conflicts('%gcc@:4.99')
+    depends_on('cmake@3.3:', type='build')
 
     extends('python', when='+python')
 
-    depends_on('python@2.7:', when='+python', type=('build', 'run'))
+    depends_on('python@2.7:', when='+python', type=('build', 'link', 'run'))
     depends_on('py-ipython', when='+tui', type=('run'))
 
     depends_on('mpi')
@@ -55,7 +56,6 @@ class Vistle(HlrsCMakePackage):
     depends_on('boost+pic')
 
     depends_on('netcdf-cxx4', when='+netcdf')
-    depends_on('cmake@3.3:', type='build')
 
     depends_on('tbb')
 
@@ -138,7 +138,7 @@ class Vistle(HlrsCMakePackage):
         else:
             args.append('-DVISTLE_64BIT_INDICES=OFF')
 
-        if not '+qt' in spec:
+        if not '+qt' and not '+vr' in spec:
             args.append('-DCMAKE_DISABLE_FIND_PACKAGE_Qt5Core=TRUE')
 
         return self.cmake_disable_implicit_deps(args)
