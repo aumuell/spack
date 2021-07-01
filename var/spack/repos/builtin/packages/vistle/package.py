@@ -42,6 +42,8 @@ class Vistle(HlrsCMakePackage):
     variant('double', default=False, description='Use double precision scalars')
     variant('large', default=False, description='Use 64-bit indices')
 
+    variant('dev', default=False, description='Install internal 3rd party dependencies for linking to Vistle')
+
     conflicts('%gcc@:4.99')
     depends_on('cmake@3.3:', type='build')
 
@@ -140,5 +142,8 @@ class Vistle(HlrsCMakePackage):
 
         if not '+qt' and not '+vr' in spec:
             args.append('-DCMAKE_DISABLE_FIND_PACKAGE_Qt5Core=TRUE')
+
+        if '+dev' in spec:
+            args.append('-DVISTLE_INSTALL_3RDPARTY=ON')
 
         return self.cmake_disable_implicit_deps(args)
