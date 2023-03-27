@@ -16,7 +16,9 @@ class Motif(AutotoolsPackage):
 
     homepage = "https://motif.ics.com/"
     url = "https://cfhcable.dl.sourceforge.net/project/motif/Motif%202.3.8%20Source%20Code/motif-2.3.8.tar.gz"
+    git = "https://git.code.sf.net/p/motif/code"
 
+    version("master", branch="master")
     version("2.3.8", sha256="859b723666eeac7df018209d66045c9853b50b4218cecadb794e2359619ebce7")
 
     depends_on("flex")
