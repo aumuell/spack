@@ -7,7 +7,7 @@
 from spack.package import *
 
 
-class Opennurbs(Package):
+class Opennurbs(CMakePackage):
     """OpenNURBS is an open-source NURBS-based geometric modeling library
     and toolset, with meshing and display / output functions.
     """
@@ -27,16 +27,13 @@ class Opennurbs(Package):
 
     variant("shared", default=True, description="Build shared libraries")
 
-    # CMake installation method
-    def install(self, spec, prefix):
-        cmake_args = [self.define_from_variant("BUILD_SHARED_LIBS", "shared")]
+    def cmake_args(self):
+        spec = self.spec
+        args = std_cmake_args
 
-        cmake_args.extend(std_cmake_args)
+        args.extend([self.define_from_variant("BUILD_SHARED_LIBS", "shared")])
 
-        with working_dir("spack-build", create=True):
-            cmake("..", *cmake_args)
-            make()
-            make("install")
+        return args
 
     # Pre-cmake installation method
     @when("@percept")
