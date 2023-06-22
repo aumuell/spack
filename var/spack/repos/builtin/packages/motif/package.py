@@ -48,6 +48,16 @@ class Motif(AutotoolsPackage):
             "../../../lib/Exm/libExm.a -lX11",
             "demos/programs/Exm/simple_app/Makefile.am",
         )
+        filter_file(
+            ".defined.__APPLE__. \|\| defined.__NetBSD__. \|\| defined.__OpenBSD__..",
+            "(defined(__NetBSD__) || defined(__OpenBSD__))",
+            "lib/Xm/TextF.c",
+        )
+        filter_file(
+            "^#include <Xm/ArrowB.h>$",
+            "#include <Xm/ArrowB.h>\n#include <stdlib.h>",
+            "demos/unsupported/xmform/xmform.c",
+        )
 
     def autoreconf(self, spec, prefix):
         autoreconf = which("autoreconf")
