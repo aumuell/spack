@@ -46,6 +46,9 @@ class Dcmtk(CMakePackage):
     variant("cxx11", default=False, description="Enable c++11 features")
     variant("stl", default=True, description="Use native STL implementation")
 
+    depends_on("libsndfile")
+    depends_on("openjpeg")
+
     conflicts("platform=darwin target=aarch64:", when="@:3.6.6")
 
     def patch(self):
