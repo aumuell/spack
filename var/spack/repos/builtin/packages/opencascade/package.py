@@ -109,6 +109,7 @@ class Opencascade(CMakePackage):
 
     # 3rd party
     variant("tbb", default=False, description="Build with Intel Threading Building Blocks")
+    variant("tcl", default=False, description="Build with Tcl support")
     variant("tk", default=False, description="Build with Tk support")
     variant("vtk", default=False, description="Enable VTK support")
     variant("ffmpeg", default=False, description="Enable FFmpeg support")
@@ -128,11 +129,11 @@ class Opencascade(CMakePackage):
     depends_on("freetype", when="+freetype")
     depends_on("rapidjson", when="+rapidjson")
 
-    depends_on("libxext")
-    depends_on("libxmu")
-    depends_on("libxi")
-    depends_on("libxt")
-    depends_on("tcl")
+    depends_on("libxext", when="platform=linux")
+    depends_on("libxmu", when="platform=linux")
+    depends_on("libxi", when="platform=linux")
+    depends_on("libxt", when="platform=linux")
+    depends_on("tcl", when="+tcl")
     depends_on("tk", when="+tk")
     depends_on("gl")
 
