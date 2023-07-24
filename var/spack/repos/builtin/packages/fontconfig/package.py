@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack.package import *
+import sys
 
 
 class Fontconfig(AutotoolsPackage):
@@ -39,7 +40,15 @@ class Fontconfig(AutotoolsPackage):
         force_remove(join_path("src", "fcobjshash.h"))
 
     def configure_args(self):
-        font_path = join_path(self.spec["font-util"].prefix, "share", "fonts")
+        if sys.platform=="darwin":
+            font_path = [
+              "/System/Library/Fonts",
+              "/Library/Fonts",
+              "~/Library/Fonts",
+            ]
+            #font_dirs << Dir["/System/Library/Assets{,V2}/com_apple_MobileAsset_Font*"].max if MacOS.version >= :sierra
+        else:
+            font_path = join_path(self.spec["font-util"].prefix, "share", "fonts")
 
         return ["--enable-libxml2", "--disable-docs", "--with-default-fonts={0}".format(font_path)]
 
