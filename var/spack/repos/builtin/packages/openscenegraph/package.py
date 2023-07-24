@@ -137,6 +137,14 @@ class Openscenegraph(CMakePackage):
         args.append(build_plugin("pdf"))
         args.append(build_plugin("svg"))
 
+        if sys.platform=="darwin":
+            args.extend(
+                    [
+                        "-DOSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX=imageio",
+                        "-DOSG_WINDOWING_SYSTEM=Cocoa",
+                    ]
+            )
+
         if spec.satisfies("^collada-dom"):
             args.extend(
                 [
