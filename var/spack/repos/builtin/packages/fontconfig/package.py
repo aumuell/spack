@@ -24,7 +24,7 @@ class Fontconfig(AutotoolsPackage):
     depends_on("gperf", type="build", when="@2.12.2:")
     depends_on("libxml2")
     depends_on("pkgconfig", type="build")
-    depends_on("font-util")
+    depends_on("font-util", when="platform=linux")
     depends_on("uuid", when="@2.13.1:")
     depends_on("python@3:", type="build", when="@2.13.93:")
 
