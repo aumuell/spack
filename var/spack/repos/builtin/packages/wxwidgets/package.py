@@ -32,7 +32,7 @@ class Wxwidgets(AutotoolsPackage):
     patch("math_include.patch", when="@3.0.1:3.0.2")
 
     depends_on("pkgconfig", type="build")
-    depends_on("gtkplus")
+    depends_on("gtkplus", when="platform=linux")
 
     @when("@:3.0.2")
     def build(self, spec, prefix):
@@ -44,6 +44,6 @@ class Wxwidgets(AutotoolsPackage):
 
         # see https://trac.wxwidgets.org/ticket/17639
         if spec.satisfies("@:3.1.0") and sys.platform == "darwin":
-            options.extend(["--disable-qtkit", "--disable-mediactrl"])
+            options.extend(["--with-osx_cocoa", "--disable-qtkit", "--disable-mediactrl"])
 
         return options
