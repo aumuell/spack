@@ -625,6 +625,8 @@ class Boost(Package):
             # change into boost compilation
             if spec.variants["cxxstd"].value == "11":
                 cxxflags.append("-std=c++11")
+        else:
+            options.extend(["pch=off"])
 
         if cxxflags:
             options.append('cxxflags="{0}"'.format(" ".join(cxxflags)))
