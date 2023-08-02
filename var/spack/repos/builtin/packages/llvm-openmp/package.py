@@ -15,6 +15,7 @@ class LlvmOpenmp(CMakePackage):
     homepage = "https://openmp.llvm.org/"
     url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/openmp-14.0.6.src.tar.xz"
 
+    version("16.0.5", sha256="bc15dc5b3c77f4c441f3a0c386befaa6a2f911e090740c062d2ebcabf52f4c52")
     version("16.0.0", sha256="e30f69c6533157ec4399193ac6b158807610815accfbed98695d72074e4bedd0")
     version("14.0.6", sha256="4f731ff202add030d9d68d4c6daabd91d3aeed9812e6a5b4968815cfdff0eb1f")
     version("12.0.1", sha256="60fe79440eaa9ebf583a6ea7f81501310388c02754dbe7dc210776014d06b091")
@@ -33,6 +34,12 @@ class LlvmOpenmp(CMakePackage):
     depends_on("py-filecheck", type="test")
     # depends_on("llvm-utils", type="test")  # for "not"
 
+    resource(
+        name="cmake",
+        url="https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.5/cmake-16.0.5.src.tar.xz",
+        sha256="9400d49acd53a4b8f310de60554a891436db5a19f6f227f99f0de13e4afaaaff",
+        when="@16.0.5",
+    )
     resource(
         name="cmake",
         url="https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.0/cmake-16.0.0.src.tar.xz",
