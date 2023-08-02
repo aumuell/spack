@@ -15,6 +15,7 @@ class Poppler(CMakePackage):
     git = "https://gitlab.freedesktop.org/poppler/poppler.git"
 
     version("master", branch="master")
+    version("23.08.0", sha256="4a4bf7fc903b9f1a2ab7d04b7c5d8220db9bc6261cc73fdb9a826dc272f49aa8")
     version("23.04.0", sha256="b6d893dc7dcd4138b9e9df59a13c59695e50e80dc5c2cacee0674670693951a1")
     version("21.09.0", sha256="5a47fef738c2b99471f9b459a8bf8b40aefb7eed92caa4861c3798b2e126d05b")
     version("21.07.0", sha256="e26ab29f68065de4d6562f0a3e2b5435a83ca92be573b99a1c81998fa286a4d4")
