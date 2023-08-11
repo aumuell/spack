@@ -39,6 +39,7 @@ class Openscenegraph(CMakePackage):
     variant(
         "inventor", default=False, description="Build support for Open Inventor files using Coin3D"
     )
+    variant("nvtt", default=False, description="Build support for compressed textures using NVTT")
     variant(
         "opencascade", default=False, description="Build support for CAD files using Open CASCADE"
     )
@@ -73,6 +74,7 @@ class Openscenegraph(CMakePackage):
     depends_on("ilmbase", when="+openexr ^openexr@:2")
     depends_on("poppler+glib", when="+pdf")
     depends_on("librsvg", when="+svg")
+    depends_on("nvidia-texture-tools+pic", when="+nvtt")
 
     depends_on("ffmpeg@:4", when="+ffmpeg")
     depends_on("ffmpeg+avresample", when="^ffmpeg@:4")
@@ -82,6 +84,7 @@ class Openscenegraph(CMakePackage):
     patch("glibc-jasper.patch", when="@3.4%gcc")
     # from gentoo: https://raw.githubusercontent.com/gentoo/gentoo/9523b20c27d12dd72d1fd5ced3ba4995099925a2/dev-games/openscenegraph/files/openscenegraph-3.6.5-openexr3.patch
     patch("openscenegraph-3.6.5-openexr3.patch", when="@3.6:")
+    patch("find-nvtt.patch", when="@3.4:")
 
     def patch(self):
         # pkgconfig does not work for GTA on macos
@@ -127,6 +130,7 @@ class Openscenegraph(CMakePackage):
         args.append(build_plugin("gta"))
         args.append(build_plugin("inventor"))
         args.append(build_plugin("opencascade"))
+        args.append(build_plugin("nvtt"))
         args.append(build_plugin("pdf"))
         args.append(build_plugin("svg"))
 

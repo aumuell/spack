@@ -1,0 +1,35 @@
+From 08f6483e6ebfee2df8928c2734eccd624679c740 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20Aumu=CC=88ller?= <aumuell@reserv.at>
+Date: Fri, 11 Aug 2023 21:39:48 +0200
+Subject: [PATCH] adapt FindNVTT to
+ https://github.com/JulianGro/nvidia-texture-tools
+
+this seems to be a reasonably maintained version of NVTT
+---
+ CMakeModules/FindNVTT.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeModules/FindNVTT.cmake b/CMakeModules/FindNVTT.cmake
+index d0e7414ac..2b8e0ec92 100644
+--- a/CMakeModules/FindNVTT.cmake
++++ b/CMakeModules/FindNVTT.cmake
+@@ -181,14 +181,14 @@ FIND_LIBRARY(NVBC7_LIBRARY_DEBUG
+ IF (WIN32)
+     SET(LIBS_TO_SETUP "NVTT" "NVCORE" "NVMATH" "NVIMAGE" "NVTHREAD" "NVBC7" "NVBC6H" "NVSQUISH")
+ ELSE()
+-    SET(LIBS_TO_SETUP "NVTT" "NVCORE" "NVMATH" "NVIMAGE")
++    SET(LIBS_TO_SETUP "NVTT" "NVCORE" "NVMATH" "NVIMAGE" "NVSQUISH")
+ ENDIF()
+ 
+ 
+ FOREACH(LIB ${LIBS_TO_SETUP})
+ 	IF(${LIB}_LIBRARY_DEBUG)
+ 	   SET(${LIB}_LIBRARIES  optimized ${${LIB}_LIBRARY_RELEASE} debug ${${LIB}_LIBRARY_DEBUG})
+-	ELSE(${LIB}_LIBRARY_DEBUG)
++       ELSEIF(${LIB}_LIBRARY_RELEASE)
+ 	   SET(${LIB}_LIBRARY_DEBUG ${${LIB}_LIBRARY_RELEASE})
+ 	   SET(${LIB}_LIBRARIES  optimized  ${${LIB}_LIBRARY_RELEASE} debug ${${LIB}_LIBRARY_DEBUG}) 
+ 	ENDIF(${LIB}_LIBRARY_DEBUG)
+-- 
+2.41.0
+
