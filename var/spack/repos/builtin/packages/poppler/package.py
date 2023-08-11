@@ -47,6 +47,7 @@ class Poppler(CMakePackage):
     depends_on("poppler-data", type=("build", "run"))
     depends_on("fontconfig")
     depends_on("freetype")
+    depends_on("harfbuzz")
 
     depends_on("boost@1.58.0:", when="+boost")
     depends_on("lcms", when="+cms")
