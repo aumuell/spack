@@ -36,6 +36,10 @@ class Embree(CMakePackage):
     depends_on("ispc", when="+ispc", type="build")
 
     depends_on("tbb")
+    conflicts("intel-parallel-studio")
+    conflicts("intel-tbb@2021.5:", when="@:3.11")
+    conflicts("intel-oneapi-tbb", when="@:3.11")
+    conflicts("intel-tbb@2020:", when="@:3.7")
 
     # official aarch64 support on macOS starting with 3.13.0, on Linux since 4.0.0
     # upstream patch for Linux/aarch64 applies cleanly to 3.13.5, and 3.13.3 works by chance
