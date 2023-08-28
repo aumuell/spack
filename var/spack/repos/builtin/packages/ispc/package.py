@@ -42,7 +42,7 @@ class Ispc(CMakePackage):
     depends_on("bison", type="build")
     depends_on("flex", type="build")
     depends_on("ncurses", type="link")
-    depends_on("zlib-api", type="link")
+    depends_on("zlib-api", type="link", when="@:1.18")
     depends_on("tbb", type="link", when="platform=linux @1.20:")
     depends_on("llvm+clang")
     depends_on("llvm libcxx=none", when="platform=darwin")
