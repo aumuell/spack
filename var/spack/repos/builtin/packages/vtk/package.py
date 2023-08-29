@@ -23,6 +23,7 @@ class Vtk(CMakePackage):
     maintainers("chuckatkins", "danlipsa")
 
     version("master", branch="master")
+    version("9.3.0.rc1", sha256="6581cec8e1c7a0290d1be0177eb84e2e7c3cb84d1ed154c7f1b57d227b7a7616")
     version("9.2.6", sha256="06fc8d49c4e56f498c40fcb38a563ed8d4ec31358d0101e8988f0bb4d539dd12")
     version("9.2.2", sha256="1c5b0a2be71fac96ff4831af69e350f7a0ea3168981f790c000709dcf9121075")
     version("9.1.0", sha256="8fed42f4f8f1eb8083107b68eaa9ad71da07110161a3116ad807f43e5ca5ce96")
@@ -279,6 +280,8 @@ class Vtk(CMakePackage):
                 )
             if spec.satisfies("@9.2:"):
                 cmake_args.append("-DVTK_MODULE_USE_EXTERNAL_VTK_verdict:BOOL=OFF")
+            if spec.satisfies("@9.3:"):
+                cmake_args.append("-DVTK_MODULE_USE_EXTERNAL_VTK_fast_float:BOOL=OFF")
 
         # Some variable names have changed
         if spec.satisfies("@8.2.0"):
