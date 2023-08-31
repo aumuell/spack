@@ -1,0 +1,34 @@
+From 3a09d7a904e98d3a26ce7f486cccb0c3b60760e8 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20Aumu=CC=88ller?= <aumuell@reserv.at>
+Date: Tue, 29 Aug 2023 09:34:40 +0200
+Subject: [PATCH 2/3] just use llvm-config --system-libs
+
+---
+ CMakeLists.txt | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ecc4a0da..bc26dba1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -664,17 +664,6 @@ else()
+     if (ISPC_STATIC_LINK)
+         target_link_libraries(${PROJECT_NAME} pthread tinfo.a curses.a)
+     else()
+-        find_package(Curses REQUIRED)
+-        if (CURSES_EXTRA_LIBRARY)
+-            # this contains the tinfo library, if found
+-            target_link_libraries(${PROJECT_NAME} ${CURSES_EXTRA_LIBRARY})
+-        endif()
+-        # Recommended way to get Curses library is to use CURSES_LIBRARIES variable
+-        # https://cmake.org/cmake/help/v3.27/module/FindCurses.html
+-        # but it contains both libform.so and libcurses.so.
+-        # We need libcurses.so only, so exclude libform.so from the list.
+-        list(FILTER CURSES_LIBRARIES EXCLUDE REGEX ".*libform.*")
+-        target_link_libraries(${PROJECT_NAME} pthread ${CURSES_LIBRARIES})
+     endif()
+     target_link_libraries(${PROJECT_NAME} ${LLVM_SYSLIBS_LIST})
+ endif()
+-- 
+2.42.0
+

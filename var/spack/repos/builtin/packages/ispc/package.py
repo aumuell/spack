@@ -72,8 +72,18 @@ class Ispc(CMakePackage):
     # Fix library lookup for NCurses in CMake
     patch(
         "https://patch-diff.githubusercontent.com/raw/ispc/ispc/pull/2638.patch?full_index=1",
-        when="@1.18:1.20",
+        when="@1.18:1.21",
         sha256="3f7dae8d4a683fca2a6157bbcb7cbe9692ff2094b0f4afaf29be121c02b0b3ad",
+    )
+
+    patch(
+        "link-against-system-libs-required-by-llvm.patch",
+        when="@1.18:1.21",
+    )
+
+    patch(
+        "just-use-llvm-config-system-libs.patch",
+        when="@1.18:1.21",
     )
 
     def patch(self):

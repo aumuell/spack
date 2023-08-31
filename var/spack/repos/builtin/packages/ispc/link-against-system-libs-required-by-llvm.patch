@@ -1,0 +1,50 @@
+From 184c2b0169b1aa484ee026f3c7cc71571270899d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20Aumu=CC=88ller?= <aumuell@reserv.at>
+Date: Mon, 28 Aug 2023 22:32:10 +0200
+Subject: [PATCH 1/3] link against system libs required by llvm
+
+---
+ CMakeLists.txt       | 2 ++
+ cmake/FindLLVM.cmake | 6 ++++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 64495d9d..ecc4a0da 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -418,6 +418,7 @@ endif()
+ message(STATUS "ISPC opaque pointers mode is " ${ISPC_OPAQUE_PTR_MODE})
+ 
+ get_llvm_libfiles(LLVM_LIBRARY_LIST ${LLVM_COMPONENTS})
++get_llvm_systemlibs(LLVM_SYSLIBS_LIST ${LLVM_COMPONENTS})
+ get_llvm_cppflags(LLVM_CPP_FLAGS)
+ 
+ generate_target_builtins(BUILTIN_FILES ${ISPC_TARGETS})
+@@ -675,6 +676,7 @@ else()
+         list(FILTER CURSES_LIBRARIES EXCLUDE REGEX ".*libform.*")
+         target_link_libraries(${PROJECT_NAME} pthread ${CURSES_LIBRARIES})
+     endif()
++    target_link_libraries(${PROJECT_NAME} ${LLVM_SYSLIBS_LIST})
+ endif()
+ 
+ if (ISPC_INCLUDE_TESTS)
+diff --git a/cmake/FindLLVM.cmake b/cmake/FindLLVM.cmake
+index 8965f4b4..f0b3f14d 100644
+--- a/cmake/FindLLVM.cmake
++++ b/cmake/FindLLVM.cmake
+@@ -118,6 +118,12 @@ function(get_llvm_libfiles resultList)
+     set(${resultList} ${tmpList} PARENT_SCOPE)
+ endfunction()
+ 
++function(get_llvm_systemlibs resultList)
++    run_llvm_config(LLVM_SYSLIBS "--system-libs" ${ARGN})
++    str_to_list("${LLVM_SYSLIBS}" tmpList)
++    set(${resultList} ${tmpList} PARENT_SCOPE)
++endfunction()
++
+ function(get_llvm_cppflags resultList)
+     run_llvm_config(CPP_FLAGS "--cppflags")
+     str_to_list("${CPP_FLAGS}" tmpList)
+-- 
+2.42.0
+
