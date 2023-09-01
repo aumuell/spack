@@ -78,12 +78,12 @@ class Ispc(CMakePackage):
 
     patch(
         "link-against-system-libs-required-by-llvm.patch",
-        when="@1.18:1.21",
+        when="@1.18:",
     )
 
     patch(
         "just-use-llvm-config-system-libs.patch",
-        when="@1.18:1.21",
+        when="@1.18:",
     )
 
     def patch(self):
