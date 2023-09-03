@@ -7,17 +7,21 @@
 from spack.package import *
 
 
-class Opennurbs(CMakePackage):
+class Opennurbs(CMakePackage, MakefilePackage):
     """OpenNURBS is an open-source NURBS-based geometric modeling library
     and toolset, with meshing and display / output functions.
     """
 
-    homepage = "https://github.com/OpenNURBS/OpenNURBS"
-    git = "https://github.com/OpenNURBS/OpenNURBS.git"
+    homepage = "https://opennurbs.org"
+    git = "https://github.com/mcneel/opennurbs.git"
 
     maintainers("jrood-nrel")
 
-    version("develop", branch="develop")
+    version("develop", git="https://github.com/OpenNURBS/OpenNURBS.git", branch="develop")
+
+    version("8.x", branch="8.x")
+    version("7.x", branch="7.x")
+    version("6.x", branch="6.x")
 
     version(
         "percept",
@@ -26,6 +30,10 @@ class Opennurbs(CMakePackage):
     )
 
     variant("shared", default=True, description="Build shared libraries")
+    build_system(
+        conditional("makefile", when="@:7"), conditional("cmake", when="@8:"), default="cmake"
+    )
+
 
     def cmake_args(self):
         spec = self.spec
@@ -36,13 +44,16 @@ class Opennurbs(CMakePackage):
         return args
 
     # Pre-cmake installation method
-    @when("@percept")
+    @when("@:7")
     def install(self, spec, prefix):
         make(parallel=False)
 
         # Install manually
         mkdir(prefix.lib)
         mkdir(prefix.include)
-        install("libopenNURBS.a", prefix.lib)
+        if self.spec.satisfies("@6:"):
+            install("libopennurbs_public.a", prefix.lib)
+        else:
+            install("libopenNURBS.a", prefix.lib)
         install_tree("zlib", join_path(prefix.include, "zlib"))
         install("*.h", prefix.include)
