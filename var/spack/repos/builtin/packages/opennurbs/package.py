@@ -20,7 +20,7 @@ class Opennurbs(CMakePackage, MakefilePackage):
     version("develop", git="https://github.com/OpenNURBS/OpenNURBS.git", branch="develop")
 
     version("8.x", branch="8.x")
-    version("7.x", branch="7.x")
+    version("7.x", branch="7.x", preferred=True)
     version("6.x", branch="6.x")
 
     version(
@@ -29,10 +29,10 @@ class Opennurbs(CMakePackage, MakefilePackage):
         url="https://github.com/PerceptTools/percept/raw/master/build-cmake/opennurbs-percept.tar.gz",
     )
 
-    variant("shared", default=True, description="Build shared libraries")
     build_system(
         conditional("makefile", when="@:7"), conditional("cmake", when="@8:"), default="cmake"
     )
+    variant("shared", default=True, when="build_system=cmake", description="Build shared libraries")
 
 
     def cmake_args(self):
