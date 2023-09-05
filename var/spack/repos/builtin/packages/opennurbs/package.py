@@ -30,10 +30,13 @@ class Opennurbs(CMakePackage, MakefilePackage):
     )
 
     build_system(
-        conditional("makefile", when="@:7"), conditional("cmake", when="@8:"), default="cmake"
+        conditional("makefile", when="@:8"), conditional("cmake", when="@8:"), default="makefile"
     )
     variant("shared", default=True, when="build_system=cmake", description="Build shared libraries")
 
+    @when("build_system=cmake")
+    def patch(self):
+        filter_file("add_subdirectory.zlib.", "", "CMakeLists.txt")
 
     def cmake_args(self):
         spec = self.spec
@@ -44,7 +47,7 @@ class Opennurbs(CMakePackage, MakefilePackage):
         return args
 
     # Pre-cmake installation method
-    @when("@:7")
+    @when("build_system=makefile")
     def install(self, spec, prefix):
         make(parallel=False)
 
