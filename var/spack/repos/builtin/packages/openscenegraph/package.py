@@ -31,6 +31,7 @@ class Openscenegraph(CMakePackage):
     variant("apps", default=False, description="Build OpenSceneGraph tools")
     variant("collada", default=False, description="Build support for COLLADA files using collada-dom")
     variant("dcmtk", default=False, description="Build support for DICOM files using DCMTK")
+    variant("fbx", default=False, description="Build support for Autodesk FBX files")
     variant(
         "ffmpeg", default=False, description="Builds ffmpeg plugin for audio encoding/decoding"
     )
@@ -75,6 +76,7 @@ class Openscenegraph(CMakePackage):
     depends_on("poppler+glib", when="+pdf")
     depends_on("librsvg", when="+svg")
     depends_on("nvidia-texture-tools+pic", when="+nvtt")
+    depends_on("autodesk-fbxsdk", when="+fbx")
 
     depends_on("ffmpeg@:4", when="+ffmpeg")
     depends_on("ffmpeg+avresample", when="^ffmpeg@:4")
@@ -124,6 +126,7 @@ class Openscenegraph(CMakePackage):
         args.append(build_plugin("dicom", "dcmtk"))
         args.append(build_plugin("collada"))
         args.append(build_plugin("exr", "openexr"))
+        args.append(build_plugin("fbx"))
         args.append(build_plugin("ffmpeg"))
         args.append(build_plugin("gdal"))
         args.append(build_plugin("ogr", "gdal"))
