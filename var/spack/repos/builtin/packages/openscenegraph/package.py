@@ -29,6 +29,7 @@ class Openscenegraph(CMakePackage):
 
     variant("shared", default=True, description="Builds a shared version of the library")
     variant("apps", default=False, description="Build OpenSceneGraph tools")
+    variant("collada", default=False, description="Build support for COLLADA files using collada-dom")
     variant("dcmtk", default=False, description="Build support for DICOM files using DCMTK")
     variant(
         "ffmpeg", default=False, description="Builds ffmpeg plugin for audio encoding/decoding"
@@ -62,6 +63,7 @@ class Openscenegraph(CMakePackage):
     depends_on("zlib-api")
     depends_on("fontconfig")
 
+    depends_on("collada-dom", when="+collada")
     depends_on("dcmtk+pic", when="+dcmtk")
     depends_on("gdal", when="+gdal")
     depends_on("libgta", when="+gta")
@@ -117,6 +119,7 @@ class Openscenegraph(CMakePackage):
             return self.define("BUILD_OSG_PLUGIN_{}".format(plugin.upper()), value)
 
         args.append(build_plugin("dicom", "dcmtk"))
+        args.append(build_plugin("collada"))
         args.append(build_plugin("exr", "openexr"))
         args.append(build_plugin("ffmpeg"))
         args.append(build_plugin("gdal"))
@@ -126,6 +129,13 @@ class Openscenegraph(CMakePackage):
         args.append(build_plugin("opencascade"))
         args.append(build_plugin("pdf"))
         args.append(build_plugin("svg"))
+
+        if spec.satisfies("^collada-dom"):
+            args.extend(
+                [
+                    "-DCOLLADA_INCLUDE_DIR={0}/include/collada-dom2.5".format(spec["collada-dom"].prefix),
+                ]
+            )
 
         # NOTE: This is necessary in order to allow OpenSceneGraph to compile
         # despite containing a number of implicit bool to int conversions.
