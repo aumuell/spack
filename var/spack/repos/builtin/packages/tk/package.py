@@ -29,17 +29,18 @@ class Tk(AutotoolsPackage, SourceforgePackage):
     version("8.6.3", sha256="ba15d56ac27d8c0a7b1a983915a47e0f635199b9473cf6e10fbce1fc73fd8333")
     version("8.5.19", sha256="407af1de167477d598bd6166d84459a3bdccc2fb349360706154e646a9620ffa")
 
+    variant("x11", default=True, description="Use X11 window system")
     variant("xft", default=True, description="Enable X FreeType")
     variant("xss", default=True, description="Enable X Screen Saver")
+
+    conflicts("~x11", when="platform=linux")
 
     extends("tcl", type=("build", "link", "run"))
 
     depends_on("tcl@8.6:", type=("build", "link", "run"), when="@8.6:")
-    depends_on("libx11")
+    depends_on("libx11", when="+x11")
     depends_on("libxft", when="+xft")
     depends_on("libxscrnsaver", when="+xss")
-
-    configure_directory = "unix"
 
     # https://core.tcl-lang.org/tk/tktview/3598664fffffffffffff
     # https://core.tcl-lang.org/tk/info/8b679f597b1d17ad
@@ -57,13 +58,30 @@ class Tk(AutotoolsPackage, SourceforgePackage):
         when="platform=darwin",
     )
 
+    build_directory = 'spack-build'
+
+    @property
+    def configure_directory(self):
+        spec = self.spec
+        if spec.satisfies("platform=darwin"):
+            return "macosx"
+        return "unix"
+
     def configure_args(self):
         spec = self.spec
         config_args = [
             "--with-tcl={0}".format(spec["tcl"].libs.directories[0]),
-            "--x-includes={0}".format(spec["libx11"].headers.directories[0]),
-            "--x-libraries={0}".format(spec["libx11"].libs.directories[0]),
         ]
+
+        if spec.satisfies("+x11"):
+            config_args.extend(
+                [
+                    "--x-includes={0}".format(spec["libx11"].headers.directories[0]),
+                    "--x-libraries={0}".format(spec["libx11"].libs.directories[0]),
+                ]
+            )
+        else:
+            config_args.append("--enable-aqua")
         config_args += self.enable_or_disable("xft")
         config_args += self.enable_or_disable("xss")
 
