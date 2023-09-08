@@ -181,6 +181,7 @@ class Opencascade(CMakePackage):
 
         # Disable documentation building
         args.append("-DBUILD_DOC_Overview=OFF")
+        args.append("-DCMAKE_FIND_DEBUG_MODE=TRUE")
 
         # Always build the foundation classes
         args.append(self.define("BUILD_MODULE_FoundationClasses", True))
