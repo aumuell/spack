@@ -19,6 +19,8 @@ class Tk(AutotoolsPackage, SourceforgePackage):
     homepage = "https://www.tcl.tk"
     sourceforge_mirror_path = "tcl/tk8.6.5-src.tar.gz"
 
+    version("8.6.13", sha256="2e65fa069a23365440a3c56c556b8673b5e32a283800d8d9b257e3f584ce0675")
+    version("8.6.12", sha256="12395c1f3fcb6bed2938689f797ea3cdf41ed5cb6c4766eec8ac949560310630")
     version("8.6.11", sha256="5228a8187a7f70fa0791ef0f975270f068ba9557f57456f51eb02d9d4ea31282")
     version("8.6.10", sha256="63df418a859d0a463347f95ded5cd88a3dd3aaa1ceecaeee362194bc30f3e386")
     version("8.6.8", sha256="49e7bca08dde95195a27f594f7c850b088be357a7c7096e44e1158c7a5fd7b33")
