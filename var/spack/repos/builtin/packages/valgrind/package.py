@@ -75,7 +75,7 @@ clang: error: unknown argument: '-static-libubsan'
     # supported by the official repository is 10.13 (macOS High Sierra, released in 2017).
     # There is a fork available with macOS support: https://github.com/LouisBrunner/valgrind-macos
     # However, this fork does not yet support 11+ or M1.
-    for os in ["mojave", "catalina", "bigsur", "monterey", "ventura"]:
+    for os in ["mojave", "catalina", "bigsur", "monterey", "ventura", "sonoma"]:
         conflicts("os=" + os)
     for target in ["m1", "m2"]:
         conflicts("target=" + target)

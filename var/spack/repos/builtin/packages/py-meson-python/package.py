@@ -41,6 +41,7 @@ class PyMesonPython(PythonPackage):
     depends_on("py-setuptools@60:", when="@0.13: ^python@3.12:", type=("build", "run"))
 
     # https://github.com/mesonbuild/meson-python/pull/111
+    conflicts("platform=darwin os=sonoma", when="@:0.7")
     conflicts("platform=darwin os=ventura", when="@:0.7")
     conflicts("platform=darwin os=monterey", when="@:0.7")
     conflicts("platform=darwin os=bigsur", when="@:0.7")
