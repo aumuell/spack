@@ -168,6 +168,8 @@ class Seacas(CMakePackage):
         msg="The Faodel TPL is only compatible with @2021-04-05 and later.",
     )
 
+    conflicts("%gcc@13:", when="@:2022-02-16")
+
     def setup_run_environment(self, env):
         env.prepend_path("PYTHONPATH", self.prefix.lib)
 
