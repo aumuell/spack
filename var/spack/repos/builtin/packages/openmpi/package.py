@@ -401,6 +401,14 @@ class Openmpi(AutotoolsPackage, CudaPackage):
     # gcc versions on x86_64, Refs. open-mpi/ompi#8603
     patch("opal_assembly_arch.patch", when="@4.0.0:4.0.5,4.1.0")
 
+    # remove unnecessary checks for symbol names in assembler code, as these
+    # checks are broken by XCode 15 - requires regenerating ./configure
+    patch(
+        "https://github.com/open-mpi/ompi/commit/1bafe60d07effda8479cebbe47d7988b85784638.patch?full_index=1",
+        sha256="ee1b7eb98a361f6fa4190a5789fe2fd47c30ebf133c11ed820625a9dfd2c505f",
+        when="@4.1:4.1.5 %apple-clang@15:",
+    )
+
     variant(
         "fabrics",
         values=disjoint_sets(
@@ -509,6 +517,12 @@ class Openmpi(AutotoolsPackage, CudaPackage):
     depends_on("automake @1.13.4:", type="build", when="@main")
     depends_on("libtool @2.4.2:", type="build", when="@main")
     depends_on("m4", type="build", when="@main")
+
+    with when("@4.1:4.1.5 %apple-clang@15:"):
+        depends_on("autoconf @2.69:", type="build")
+        depends_on("automake @1.13.4:", type="build")
+        depends_on("libtool @2.4.2:", type="build")
+        depends_on("m4", type="build")
 
     depends_on("perl", type="build")
     depends_on("pkgconfig", type="build")
@@ -904,6 +918,11 @@ class Openmpi(AutotoolsPackage, CudaPackage):
     def autoreconf(self, spec, prefix):
         perl = which("perl")
         perl("autogen.pl")
+
+    @when("@4.1:4.1.5 %apple-clang@15:")
+    def autoreconf(self, spec, prefix):
+        perl = which("perl")
+        perl("autogen.pl", "--force")
 
     def configure_args(self):
         spec = self.spec
