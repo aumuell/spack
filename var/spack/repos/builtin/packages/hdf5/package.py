@@ -334,6 +334,10 @@ class Hdf5(CMakePackage):
     # will include the patch code changes.
     patch("hdf5_1_14_0_config_find_mpi.patch", when="@1.14.0")
 
+    # work around -commons linker flag unsupported by XCode 15: https://github.com/HDFGroup/hdf5/issues/3571
+    # upstream fix is targetted for @1.14.3
+    patch("xcode15-commons.patch", when="@:1.14.2 %apple-clang@15: +fortran")
+
     # The argument 'buf_size' of the C function 'h5fget_file_image_c' is
     # declared as intent(in) though it is modified by the invocation. As a
     # result, aggressive compilers such as Fujitsu's may do a wrong
