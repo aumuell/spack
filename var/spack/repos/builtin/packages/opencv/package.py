@@ -19,6 +19,7 @@ class Opencv(CMakePackage, CudaPackage):
     maintainers("bvanessen", "adamjstewart")
 
     version("master", branch="master")
+    version("4.8.1", sha256="62f650467a60a38794d681ae7e66e3e8cfba38f445e0bf87867e2f2cdc8be9d5")
     version("4.8.0", sha256="cbf47ecc336d2bff36b0dcd7d6c179a9bb59e805136af6b9670ca944aef889bd")
     version("4.7.0", sha256="8df0079cdbe179748a18d44731af62a245a45ebf5085223dc03133954c662973")
     version("4.6.0", sha256="1ec1cba65f9f20fe5a41fda1586e01c70ea0c9a6d7b67c9e13edf0cfe2239277")
@@ -67,6 +68,7 @@ class Opencv(CMakePackage, CudaPackage):
         "4.6.0",
         "4.7.0",
         "4.8.0",
+        "4.8.1",
     ]
     for cv in contrib_vers:
         resource(
