@@ -1,0 +1,23 @@
+From 869cfa83458ed54020473d824e9db079c1b8e42b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20Aumu=CC=88ller?= <aumuell@reserv.at>
+Date: Thu, 28 Sep 2023 16:51:16 +0200
+Subject: [PATCH] do not install userblock.txt
+
+not generated any longer
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cf77185e..68f6f917 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -283,4 +283,4 @@ ENDIF()
+ # =========================================================================
+ # Install
+ # =========================================================================
+-INSTALL(FILES ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/configuration.cmake ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/userblock.txt DESTINATION bin)
++INSTALL(FILES ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/configuration.cmake DESTINATION bin)
+-- 
+2.42.0
+

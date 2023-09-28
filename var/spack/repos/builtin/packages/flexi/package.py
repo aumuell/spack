@@ -21,6 +21,7 @@ class Flexi(CMakePackage):
     version("21.03.0", sha256="1b1633edce5713008010039e4f5f9cdd5c9547a8de0e2a3baf5e18a21da55818")
 
     patch("for_aarch64.patch", when="@:22.03.0 target=aarch64:")
+    patch("no_userblock_txt.patch", when="@22.03.1:")
 
     variant("mpi", default=True, description="Enable MPI")
     variant(
