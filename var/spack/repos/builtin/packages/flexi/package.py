@@ -20,7 +20,7 @@ class Flexi(CMakePackage):
     version("21.09.0", sha256="0d322ef7b94e6c26e6d71b521e2be3118374ce7788ea81a58f6ef87a3f54dc01")
     version("21.03.0", sha256="1b1633edce5713008010039e4f5f9cdd5c9547a8de0e2a3baf5e18a21da55818")
 
-    patch("for_aarch64.patch", when="target=aarch64:")
+    patch("for_aarch64.patch", when="@:22.03.0 target=aarch64:")
 
     variant("mpi", default=True, description="Enable MPI")
     variant(
