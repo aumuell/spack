@@ -11,10 +11,14 @@ class Flexi(CMakePackage):
     Dynamics Solver"""
 
     homepage = "https://www.flexi-project.org/"
+    url = "https://github.com/flexi-framework/flexi/archive/refs/tags/v22.03.0.tar.gz"
     git = "https://github.com/flexi-framework/flexi.git"
 
-    version("master", preferred=True)
-    version("21.03.0", tag="v21.03.0", commit="d061978e5d96cfc96c06edc1bae9d92cbe540c18")
+    version("master", branch="master", preferred=True)
+    version("22.03.0", sha256="d07680f6334dc459995706802bf1cf3cf3f2218fa8cdb8435e2a30cd00d00191")
+    version("21.12.0", sha256="9d4cc23a42a9730cc817db7393c45f41483f6216e426f5de478f0cb4fef47b95")
+    version("21.09.0", sha256="0d322ef7b94e6c26e6d71b521e2be3118374ce7788ea81a58f6ef87a3f54dc01")
+    version("21.03.0", sha256="1b1633edce5713008010039e4f5f9cdd5c9547a8de0e2a3baf5e18a21da55818")
 
     patch("for_aarch64.patch", when="target=aarch64:")
 
