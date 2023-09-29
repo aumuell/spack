@@ -159,3 +159,12 @@ class Openscenegraph(CMakePackage):
             args.extend(["-DCMAKE_C_FLAGS=-fpermissive", "-DCMAKE_CXX_FLAGS=-fpermissive"])
 
         return args
+
+    @property
+    def libs(self):
+        spec = self.spec
+
+        name = ["libosg", "osg"]
+        search_shared = bool(spec.variants["shared"].value)
+
+        return find_libraries(name, spec.prefix, shared=search_shared, recursive=True)
