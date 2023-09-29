@@ -168,3 +168,9 @@ class Openscenegraph(CMakePackage):
         search_shared = bool(spec.variants["shared"].value)
 
         return find_libraries(name, spec.prefix, shared=search_shared, recursive=True)
+
+    @run_after("install")
+    def darwin_fix(self):
+        # The shared library is not installed correctly on Darwin; fix this
+        if self.spec.satisfies("platform=darwin") and ("+shared" in self.spec):
+            fix_darwin_install_name(self.prefix.lib)
