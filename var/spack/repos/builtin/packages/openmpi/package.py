@@ -408,6 +408,7 @@ class Openmpi(AutotoolsPackage, CudaPackage):
         sha256="ee1b7eb98a361f6fa4190a5789fe2fd47c30ebf133c11ed820625a9dfd2c505f",
         when="@4.1:4.1.5 %apple-clang@15:",
     )
+    patch("use_ld_classic.patch", when="@4.1:4.1.5 %apple-clang@15:")
 
     variant(
         "fabrics",

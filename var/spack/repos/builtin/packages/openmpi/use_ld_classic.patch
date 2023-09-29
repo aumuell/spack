@@ -1,0 +1,47 @@
+From caa7cbbc939f72eebceca69dfd205382b4223d8e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20Aumu=CC=88ller?= <aumuell@reserv.at>
+Date: Fri, 29 Sep 2023 02:22:39 +0200
+Subject: [PATCH] also add -ld_classic
+
+---
+ config/ompi_setup_fc.m4 | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/config/ompi_setup_fc.m4 b/config/ompi_setup_fc.m4
+index ab60092f67..2650553e90 100644
+--- a/config/ompi_setup_fc.m4
++++ b/config/ompi_setup_fc.m4
+@@ -144,6 +144,30 @@ AC_DEFUN([OMPI_SETUP_FC],[
+     AS_IF([test $ompi_fc_happy -eq 1],
+           [OMPI_FORTRAN_CHECK_PREPROCESS_F90])
+ 
++    AS_IF([test $ompi_fc_happy -eq 1],
++          [AC_MSG_CHECKING([to see if Fortran compilers need additional linker flags])
++           case "$host" in
++           *apple-darwin*)
++               LDFLAGS_save=$LDFLAGS
++               LDFLAGS="$LDFLAGS -Wl,-ld_classic"
++               AC_LANG_PUSH([Fortran])
++               AC_LINK_IFELSE([AC_LANG_SOURCE([[program test
++  integer :: i
++end program]])],
++                              [LDFLAGS_save=$LDFLAGS
++                               OMPI_FORTRAN_WRAPPER_FLAGS="-Wl,-ld_classic"
++                               OPAL_WRAPPER_FLAGS_ADD([FCFLAGS], [$OMPI_FORTRAN_WRAPPER_FLAGS])],
++                              [OMPI_FORTRAN_WRAPPER_FLAGS=none])
++               AC_LANG_POP([Fortran])
++               LDFLAGS=$LDFLAGS_save
++               AC_MSG_RESULT([$OMPI_FORTRAN_WRAPPER_FLAGS])
++               ;;
++           *)
++               AC_MSG_RESULT([none])
++               ;;
++           esac
++          ])
++
+     # Per trac #1982, on OS X, we may need some esoteric linker flags
+     # in the wrapper compilers.  However, per
+     # https://github.com/open-mpi/ompi/issues/259, we need to use
+-- 
+2.42.0
+
