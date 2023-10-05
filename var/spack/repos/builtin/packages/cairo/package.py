@@ -6,14 +6,13 @@
 from spack.package import *
 
 
-class Cairo(AutotoolsPackage, MesonPackage):
+class Cairo(AutotoolsPackage):
     """Cairo is a 2D graphics library with support for multiple output
     devices."""
 
     homepage = "https://www.cairographics.org/"
     url = "https://www.cairographics.org/releases/cairo-1.16.0.tar.xz"
 
-    version("1.18.0", sha256="243a0736b978a33dee29f9cca7521733b78a65b5418206fef7bd1c3d4cf10b64")
     version(
         "1.17.8",
         sha256="5b10c8892d1b58d70d3f0ba5b47863a061262fa56b9dc7944161f8c8b783bc64",
@@ -32,6 +31,7 @@ class Cairo(AutotoolsPackage, MesonPackage):
     version(
         "1.16.0",
         sha256="5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331",
+        preferred=True,
     )
     version("1.14.12", sha256="8c90f00c500b2299c0a323dd9beead2a00353752b2092ead558139bd67f7bf16")
     version("1.14.8", sha256="d1f2d98ae9a4111564f6de4e013d639cf77155baf2556582295a0f00a9bc5e20")
@@ -44,10 +44,6 @@ class Cairo(AutotoolsPackage, MesonPackage):
     variant("fc", default=False, description="Enable cairo's Fontconfig font backend feature")
     variant("png", default=False, description="Enable cairo's PNG functions feature")
     variant("svg", default=False, description="Enable cairo's SVN functions feature")
-
-    build_system(
-            conditional("autotools", when="@:1.17"), conditional("meson", when="@1.18:"), default="meson"
-    )
 
     depends_on("libx11", when="+X")
     depends_on("libxext", when="+X")
@@ -74,15 +70,13 @@ class Cairo(AutotoolsPackage, MesonPackage):
     # patch from https://gitlab.freedesktop.org/cairo/cairo/issues/346
     patch("fontconfig.patch", when="@1.16.0:1.17.2")
     # Don't regenerate docs to avoid a dependency on gtk-doc
-    patch("disable-gtk-docs.patch", when="@:1.17 ^autoconf@2.70:")
+    patch("disable-gtk-docs.patch", when="^autoconf@2.70:")
 
-    @when("build_system=autotools")
     def autoreconf(self, spec, prefix):
         # Regenerate, directing the script *not* to call configure before Spack
         # does
         which("sh")("./autogen.sh", extra_env={"NOCONFIGURE": "1"})
 
-    @when("build_system=autotools")
     def configure_args(self):
         args = ["--disable-trace", "--enable-tee"]  # can cause problems with libiberty
 
@@ -96,29 +90,6 @@ class Cairo(AutotoolsPackage, MesonPackage):
         args.extend(self.enable_or_disable("ft"))
         args.extend(self.enable_or_disable("fc"))
 
-        return args
-
-    @when("build_system=meson")
-    def meson_args(self):
-        args = [
-            "-Dtee=enabled",
-        ]
-        if "+ft" in self.spec:
-            args.extend(["-Dfreetype=enabled"])
-        else:
-            args.extend(["-Dfreetype=disabled"])
-        if "+fc" in self.spec:
-            args.extend(["-Dfontconfig=enabled"])
-        else:
-            args.extend(["-Dfontconfig=disabled"])
-        #if "+pdf" in self.spec:
-        #    args.extend(["-Dpdf=enabled"])
-        #else:
-        #    args.extend(["-Dpdf=disabled"])
-        if "+X" in self.spec:
-            args.extend(["-Dxlib=enabled", "-Dxlib-xcb=enabled"])
-        else:
-            args.extend(["-Dxlib=disabled", "-Dxlib-xcb=disabled"])
         return args
 
     def check(self):
