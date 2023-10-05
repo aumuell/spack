@@ -52,7 +52,6 @@ class Poppler(CMakePackage):
     depends_on("boost@1.58.0:", when="+boost")
     depends_on("lcms", when="+cms")
     depends_on("glib@2.41:", when="+glib")
-    depends_on("gtkplus", when="+glib platform=linux")
     depends_on("gobject-introspection", when="+gobject")
     depends_on("curl", when="+libcurl")
     depends_on("openjpeg", when="+openjpeg")
