@@ -20,6 +20,8 @@ class Pcl(CMakePackage):
     version("1.12.0", sha256="606a2d5c7af304791731d6b8ea79365bc8f2cd75908006484d71ecee01d9b51c")
     version("1.11.1", sha256="19d1a0bee2bc153de47c05da54fc6feb23393f306ab2dea2e25419654000336e")
 
+    variant("cuda", default=False, description="Use CUDA acceleration")
+
     depends_on("cmake@3.5:", type="build")
     depends_on("cmake@3.10:", when="@1.12.1:", type="build")
     depends_on("eigen@3.1:")
@@ -30,6 +32,7 @@ class Pcl(CMakePackage):
     depends_on("boost@1.65:", when="@1.12:")
     depends_on("boost+filesystem+iostreams+system")
     depends_on("boost+date_time", when="@:1.13.0")
+    depends_on("cuda", when="+cuda")
 
     # fix build with clang: #30653
     with when("@:1.12"):
@@ -46,5 +49,6 @@ class Pcl(CMakePackage):
     def cmake_args(self):
         """test"""
         args = []
-        args.append('-DWITH_VTK=FALSE')
+        args.append(self.define("WITH_VTK", False))
+        args.append(self.define_from_variant("WITH_CUDA", "cuda"))
         return args
