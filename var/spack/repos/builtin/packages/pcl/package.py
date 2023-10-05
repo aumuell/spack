@@ -41,13 +41,7 @@ class Pcl(CMakePackage):
             sha256="17a7a7aec8e63701294612cbb25d46ac1ce58f643dbc68e1517329ae0b68956d",
         )
 
-    # TODO: replace this with an explicit list of components of Boost,
-    # for instance depends_on('boost +filesystem')
-    # See https://github.com/spack/spack/pull/22303 for reference
-    depends_on(Boost.with_default_variants)
-
     def cmake_args(self):
-        """test"""
         args = []
         args.append(self.define("WITH_VTK", False))
         args.append(self.define_from_variant("WITH_CUDA", "cuda"))
